@@ -7,6 +7,7 @@ int main(){
     cout << "hola";
     int i;
     cin>>i;
-    cout<<i+2;
+    cout<<i+2<<endl;
+    cout<<i+10000;
     
 }
