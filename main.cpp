@@ -11,6 +11,7 @@ int main(){
     suma = x + y;
     
     cout << suma << endl;
+    cout << suma - 1;
 
 
     return 0;
