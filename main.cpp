@@ -4,15 +4,9 @@ using namespace std;
 
 int main(){
     cout << "Hola porc!" << endl;
-    cout << "hola" << endl;
-
-    int x = 7, y = 2, suma = 0;
-
-    suma = x + y;
+    cout << "hola";
+    int i;
+    cin>>i;
+    cout<<i+2;
     
-    cout << suma << endl;
-    cout << suma - 1;
-
-
-    return 0;
 }
