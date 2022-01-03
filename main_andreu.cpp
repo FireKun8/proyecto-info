@@ -5,7 +5,7 @@
 #include <iomanip>
 using namespace std;
 
-const int NP = 283;
+const int NP = 250;
 typedef struct mDatos[NP][NP];
 
 mDatos mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021;
@@ -22,6 +22,19 @@ struct linea
     int IDP;
 };
 
+
+int asignador()
+{
+    int asign;
+    ifstream ISO("asign_ISO.csv");
+    string line;
+    if (asign_ISO.is_open())
+    {
+
+    }
+    
+}
+
 void leerDatos_ref()
 {
     ifstream datos("refugiados.csv");
@@ -30,10 +43,11 @@ void leerDatos_ref()
     
     if (datos.is_open())
     {
-        while (getline(datos,line, '\n')) 
+        while (getline(datos, line,'\n')) 
         {
             stringstream ss(line);
-            getline(ss, )
+            getline(ss, aux, ',');
+            
             getline(datos, line, '\n');
             cout << line <<endl;
         }
@@ -52,4 +66,3 @@ int main()
     return 0;
 }
 
-void assignador()
