@@ -46,7 +46,7 @@ int main(){
     mGestorLoc mLocalizaciones;
     vector<int> vLocPadre;
     vector<tListador> vLista;
-    vector<int> vDemandado = {900, 728};
+    vector<int> vDemandado;
 
     leerDatos(mMigraciones, mLocalizaciones, vLocPadre);
     listadorDatos(mMigraciones, mLocalizaciones, vLista, vDemandado);
@@ -63,15 +63,15 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
     string localizacion;
     int numDatos[3][7];
     int contador = 0;
-    bool temp = false;
 
     if(datos.is_open()){
         while(getline(datos, linea)){
+            bool temp = false;
             stringstream ss(linea);
             getline(ss, aux, ',');
             getline(ss, aux, ',');
             mLocalizaciones[contador].localizacion = aux;
-            if(aux[2] <= 65 && aux[2] >= 90){
+            if(aux[2] >= 65 && aux[2] <= 90){
                 temp = true;
             }
             getline(ss, aux, ',');
