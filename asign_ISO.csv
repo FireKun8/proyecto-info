@@ -24,7 +24,7 @@
 23;Bermuda;BMU
 24;Bhutan;BTN
 25;Bolivia (Plurinational State of);BOL
-26;Bonaire, Sint Eustatius and Saba;BES
+26;Bonaire Sint Eustatius and Saba;BES
 27;Bosnia and Herzegovina;BIH
 28;Botswana;BWA
 29;Bouvet Island;BVT
@@ -53,10 +53,10 @@
 52;Costa Rica;CRI
 53;Croatia;HRV
 54;Cuba;CUB
-55;Curaçao;CUW
+55;CuraÃ§ao;CUW
 56;Cyprus;CYP
 57;Czechia;CZE
-58;Côte d'Ivoire;CIV
+58;CÃ´te d'Ivoire;CIV
 59;Denmark;DNK
 60;Djibouti;DJI
 61;Dominica;DMA
@@ -181,8 +181,8 @@
 180;Romania;ROU
 181;Russian Federation (the);RUS
 182;Rwanda;RWA
-183;Réunion;REU
-184;Saint Barthélemy;BLM
+183;RÃ©union;REU
+184;Saint BarthÃ©lemy;BLM
 185;Saint Helena, Ascension and Tristan da Cunha;SHN
 186;Saint Kitts and Nevis;KNA
 187;Saint Lucia;LCA
@@ -246,5 +246,5 @@
 245;Yemen;YEM
 246;Zambia;ZMB
 247;Zimbabwe;ZWE
-248;Åland Islands;ALA
+248;Ã…land Islands;ALA
 250;Stateless;XXA
