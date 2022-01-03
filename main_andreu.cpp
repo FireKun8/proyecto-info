@@ -14,6 +14,15 @@ void leerDatos_ref()
     {
         string line;
         getline(datos, line, '\n');
+        cout << line <<endl;
+
     }
 
+}
+
+int main()
+{
+    leerDatos_ref();
+    
+    return 0;
 }
