@@ -6,24 +6,19 @@
 using namespace std;
 
 const int NP = 250;
-typedef struct mDatos[NP][NP];
 
-mDatos mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021;
 
-struct linea 
+typedef struct tDatos 
 {
-    int any;
-    string origen;
-    string ISO_or;
-    string destino;
-    string ISO_dest;
-    int refugiados;
+    int ref;
     int asilo;
     int IDP;
 };
 
+typedef tDatos mDatos[NP][NP];
 
-int asignador()
+
+int asignador(string aux)
 {
     int asign;
     ifstream ISO("asign_ISO.csv");
@@ -40,6 +35,8 @@ void leerDatos_ref()
     ifstream datos("refugiados.csv");
     string line;
     string aux;
+    int i,j;
+    mDatos mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021;
     
     if (datos.is_open())
     {
@@ -47,9 +44,21 @@ void leerDatos_ref()
         {
             stringstream ss(line);
             getline(ss, aux, ',');
+            if (stoi(aux)==2016)
+            {
+                getline(ss, aux, ',');
+                getline(ss, aux, ',');
+                i = asignador(aux);
+                getline(ss, aux, ',');
+                getline(ss, aux, ',');
+                j = asignador(aux);
+                getline(ss, mDatos2016[i][j].ref, ',');
+                getline(ss, mDatos2016[i][j].asilo, ',');
+                getline(ss, mDatos2016[i][j].IDP, ',');
+                
+            }
             
-            getline(datos, line, '\n');
-            cout << line <<endl;
+          
         }
         
 
