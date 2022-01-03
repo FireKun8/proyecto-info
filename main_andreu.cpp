@@ -59,8 +59,8 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
 {
     ifstream datos("refugiados.csv");
     string line;
-    string aux;
-    int i, j, any;
+    string aux,any;
+    int i, j;
     rellenar(mDatos2016);
     rellenar(mDatos2017);
     rellenar(mDatos2018);
@@ -80,8 +80,10 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
             getline(ss, aux, ',');
             getline(ss, aux, ',');
             j = asignador(aux);
+            
+            int any_n = stoi(any);
 
-            swithc (stoi(any))
+            switch (any_n)
             {
                 case 2016 : 
                 {
