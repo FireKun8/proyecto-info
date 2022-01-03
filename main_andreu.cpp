@@ -17,39 +17,56 @@ typedef struct tDatos
 
 typedef tDatos mDatos[NP][NP];
 
-
 int asignador(string ISO)
 {
-    int asign;
-    ifstream ISO("asign_ISO.csv");
-    string line, ISO1;
+    string asign;
+    ifstream codi("asign_ISO.csv");
+    string line, ISO1, pais;
 
-    if (asign_ISO.is_open())
+    if (codi.is_open())
     {
         bool trobat = false;
-        while (getline(asign, line, '\n')&& !trobat)
+        while (getline(codi, line, '\n') && !trobat)
         {
             stringstream ss(line);
             getline (ss, asign, ';');
             getline (ss, pais, ';');
-            getline (ss, ISO1, ';');
-            if (ISO1==ISO)
+            getline (ss, ISO1, ';'); 
+            if (ISO1 == ISO)
             {
                 trobat=true;
             }
-            
         }
         
     }
-    return asign;
+    return stoi(asign);
 }
 
-void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021;)
+void rellenar(mDatos& mDatos20XX)
+{
+    for (int i=0;i<NP; i++)
+    {
+        for (int j=0;j<NP; j++)
+        {
+            mDatos20XX[i][j].ref = 0;
+            mDatos20XX[i][j].asilo = 0;
+            mDatos20XX[i][j].IDP = 0;
+        }
+    }
+}
+
+void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021)
 {
     ifstream datos("refugiados.csv");
     string line;
     string aux;
     int i, j, any;
+    rellenar(mDatos2016);
+    rellenar(mDatos2017);
+    rellenar(mDatos2018);
+    rellenar(mDatos2019);
+    rellenar(mDatos2020);
+    rellenar(mDatos2021);
         
     if (datos.is_open())
     {
@@ -115,9 +132,9 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
 
     
     }
-
     
 }
+
 
 int main()
 {
