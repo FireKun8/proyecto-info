@@ -7,8 +7,7 @@ using namespace std;
 
 const int NP = 250;
 
-
-typedef struct tDatos 
+struct tDatos 
 {
     int ref;
     int asilo;
@@ -16,30 +15,37 @@ typedef struct tDatos
 };
 
 typedef tDatos mDatos[NP][NP];
+typedef string tPaises[2][NP]; 
 
-int asignador(string ISO)
+void leerDatos_paises(tPaises& tabPaises)
 {
-    string asign;
     ifstream codi("asign_ISO.csv");
-    string line, ISO1, pais;
+    string line, aux;
+    int cont=0;
 
     if (codi.is_open())
     {
-        bool trobat = false;
-        while (getline(codi, line, '\n') && !trobat)
+        while (getline(codi, line))
         {
             stringstream ss(line);
-            getline (ss, asign, ';');
-            getline (ss, pais, ';');
-            getline (ss, ISO1, ';'); 
-            if (ISO1 == ISO)
-            {
-                trobat=true;
-            }
+            getline (ss, aux, ';');
+            getline (ss, tabPaises[0][cont], ';');
+            getline (ss, tabPaises[1][cont], ';'); 
+            cont++;
         }
-        
     }
-    return stoi(asign);
+}
+
+int asignador(string ISO)
+{
+    tPaises t;
+    for (int j = 0; j <NP; j++)
+    {
+        if (ISO==t[1][j])
+        {
+            return j;
+        }
+    }
 }
 
 void rellenar(mDatos& mDatos20XX)
@@ -87,44 +93,62 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
             {
                 case 2016 : 
                 {
-                    getline(ss, mDatos2016[i][j].ref, ',');
-                    getline(ss, mDatos2016[i][j].asilo, ',');
-                    getline(ss, mDatos2016[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2016[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2016[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2016[i][j].IDP = stoi(aux);
                     break;
                 }
                 case 2017 :
                 {
-                    getline(ss, mDatos2017[i][j].ref, ',');
-                    getline(ss, mDatos2017[i][j].asilo, ',');
-                    getline(ss, mDatos2017[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2017[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2017[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2017[i][j].IDP = stoi(aux);
                     break;
                 }
                 case 2018 :
                 {
-                    getline(ss, mDatos2018[i][j].ref, ',');
-                    getline(ss, mDatos2018[i][j].asilo, ',');
-                    getline(ss, mDatos2018[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2018[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2018[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2018[i][j].IDP = stoi(aux);
                     break;
                 }
                 case 2019 :
                 {
-                    getline(ss, mDatos2019[i][j].ref, ',');
-                    getline(ss, mDatos2019[i][j].asilo, ',');
-                    getline(ss, mDatos2019[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2019[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2019[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2019[i][j].IDP = stoi(aux);
                     break;
                 }
                 case 2020 :
                 {
-                    getline(ss, mDatos2020[i][j].ref, ',');
-                    getline(ss, mDatos2020[i][j].asilo, ',');
-                    getline(ss, mDatos2020[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2020[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2020[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2020[i][j].IDP = stoi(aux);
                     break;
                 }
                 case 2021 :
                 {
-                    getline(ss, mDatos2021[i][j].ref, ',');
-                    getline(ss, mDatos2021[i][j].asilo, ',');
-                    getline(ss, mDatos2021[i][j].IDP, ',');
+                    getline(ss, aux, ',');
+                    mDatos2021[i][j].ref = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2021[i][j].asilo = stoi(aux);
+                    getline(ss, aux, ',');
+                    mDatos2021[i][j].IDP = stoi(aux);
                     break;
                 }
                
@@ -138,10 +162,37 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
 }
 
 
+
+void imprimir()
+{
+    //cout << "| " << setw(50) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
+    for(int i = 0; i < 159; i++){
+        if(i == 0){
+            //cout << "| ";
+        }
+        else{
+            //cout << "-";
+        }
+    }
+    for (int k=0; k <NP; k++)
+    {
+        //cout<< "| "<< setw(12)<< internal << 
+    }
+}
+
 int main()
 {
-    leerDatos_ref();
-
+    tPaises t;
+    leerDatos_paises(t);
+    for(int i=0; i <2; i++)
+    {
+        for(int j = 0; j <NP; j++)
+        {
+            cout<<"| "<<setw(20)<<internal<<t[i][j];
+        }
+        cout<<endl;
+    }
+    
     return 0;
 }
 
