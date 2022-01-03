@@ -5,6 +5,18 @@
 #include <iomanip>
 using namespace std;
 
+struct linea 
+{
+    int any;
+    string origen;
+    string ISO_or;
+    string destino;
+    string ISO_dest;
+    int refugiados;
+    int asilo;
+    int IDP;
+};
+
 void leerDatos_ref()
 {
     ifstream datos;
@@ -23,6 +35,6 @@ void leerDatos_ref()
 int main()
 {
     leerDatos_ref();
-    
+
     return 0;
 }
