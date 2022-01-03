@@ -46,7 +46,7 @@ int main(){
     mGestorLoc mLocalizaciones;
     vector<int> vLocPadre;
     vector<tListador> vLista;
-    vector<int> vDemandado;
+    vector<int> vDemandado = {900};
 
     leerDatos(mMigraciones, mLocalizaciones, vLocPadre);
     listadorDatos(mMigraciones, mLocalizaciones, vLista, vDemandado);
