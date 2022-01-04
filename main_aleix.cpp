@@ -37,6 +37,7 @@ typedef tLocalizaciones mGestorLoc[NLOC];
 void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre);
 void listadorDatos(mIndex mMigraciones, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado);
 void imprimirDatos(vector<tListador>& vLista, int intro);
+void menu(vector<tListador> vLista, vector<int> vDemandado, mIndex mDatos, mGestorLoc mLocalizaciones);
 
 
 int main(){
@@ -46,11 +47,12 @@ int main(){
     mGestorLoc mLocalizaciones;
     vector<int> vLocPadre;
     vector<tListador> vLista;
-    vector<int> vDemandado = {900};
+    vector<int> vDemandado;
 
     leerDatos(mMigraciones, mLocalizaciones, vLocPadre);
-    listadorDatos(mMigraciones, mLocalizaciones, vLista, vDemandado);
-    imprimirDatos(vLista, 1);
+
+    menu(vLista, vDemandado, mMigraciones, mLocalizaciones);
+
     return 0;
 }
 
@@ -65,7 +67,7 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
     int contador = 0;
 
     if(datos.is_open()){
-        while(getline(datos, linea)){
+        while(getline(datos, linea)){ 
             bool temp = false;
             stringstream ss(linea);
             getline(ss, aux, ',');
@@ -142,5 +144,50 @@ void imprimirDatos(vector<tListador>& vLista, int intro){
             }
         }
         cout << endl;
+    }
+}
+
+void menu(vector<tListador> vLista, vector<int> vDemandado, mIndex mDatos, mGestorLoc mLocalizaciones){
+    cout << "1. Listar todo" << endl;
+    cout << "2. Buscar por codigo" << endl;
+    cout << "3. Comparar localizaciones" << endl;
+    int opcion;
+    cin >> opcion;
+    system("cls");
+
+    int codigo;
+
+    switch(opcion)
+    {
+    case 1:
+        for(int i = 0; i < NLOC; i++){
+            vDemandado.push_back(mDatos[i].lCodigo);
+        }
+        listadorDatos(mDatos, mLocalizaciones, vLista, vDemandado);
+        imprimirDatos(vLista, 1);
+        break;
+    case 2:
+        system("cls");
+        cout << "Introducir el codigo de la localizacion a buscar: ";
+        cin >> codigo;
+        vDemandado.push_back(codigo);
+        listadorDatos(mDatos, mLocalizaciones, vLista, vDemandado);
+        imprimirDatos(vLista, 1);
+        break;
+    case 3:
+        system("cls");
+        cout << "Introducir los codigos de las localizaciones a comparar: " << endl;
+        cout << "- ";
+        cin >> codigo; 
+        while(codigo != -1){
+            vDemandado.push_back(codigo);
+            cout << "- ";
+            cin >> codigo;
+        }
+        listadorDatos(mDatos, mLocalizaciones, vLista, vDemandado);
+        imprimirDatos(vLista, 1);
+        break;
+    default:
+        break;
     }
 }
