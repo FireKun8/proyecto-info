@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+
 using namespace std;
 
 const int NP = 250;
@@ -16,6 +17,24 @@ struct tDatos
 
 typedef tDatos mDatos[NP][NP];
 typedef string tPaises[2][NP]; 
+
+void leerDatos_paises(tPaises& tabPaises);
+int  asignador(string ISO);
+void rellenarZEROS(mDatos& mDatos20XX);
+void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021);
+void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021);
+
+int main()
+{
+    mDatos mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021;
+    leerDatos_ref(mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021);
+    imprimir(mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021);
+    return 0;
+}
+
+
+
+
 
 void leerDatos_paises(tPaises& tabPaises)
 {
@@ -39,13 +58,17 @@ void leerDatos_paises(tPaises& tabPaises)
 int asignador(string ISO)
 {
     tPaises t;
-    for (int j = 0; j <NP; j++)
+    int asign;
+    bool trobat = false;
+    for (int j = 0; j <NP && !trobat; j++)
     {
         if (ISO==t[1][j])
         {
-            return j;
+            asign = j;
+            trobat = true;
         }
     }
+    return asign;
 }
 
 void rellenar(mDatos& mDatos20XX)
@@ -163,36 +186,26 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
 
 
 
-void imprimir()
+void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021)
 {
-    //cout << "| " << setw(50) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
-    for(int i = 0; i < 159; i++){
-        if(i == 0){
-            //cout << "| ";
-        }
-        else{
-            //cout << "-";
-        }
-    }
-    for (int k=0; k <NP; k++)
-    {
-        //cout<< "| "<< setw(12)<< internal << 
-    }
-}
-
-int main()
-{
+    string ISO_origen, ISO_dest;
+    cout<<"Inserta el codigo ISO de un pais del pais de origen:"<<endl;
+    cin>>ISO_origen;
+    cout<<"Inserta el codigo ISO de un pais del pais de destinacion:"<<endl;
+    cin>>ISO_dest;
+    
+    int i = asignador(ISO_origen);
+    int j = asignador(ISO_dest);
     tPaises t;
     leerDatos_paises(t);
-    for(int i=0; i <2; i++)
-    {
-        for(int j = 0; j <NP; j++)
-        {
-            cout<<"| "<<setw(20)<<internal<<t[i][j];
-        }
-        cout<<endl;
+    if (i==j)
+    {   
+        cout<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<t[0][i]<<":"<<endl<<endl;
+        cout<<"| "<<setw(10)<<left<<2016<<"| "<<setw(10)<<left<<2017<<"| "<<setw(10)<<left<<2018<<"| "<<setw(10)<<left<<2019<<"| "<<setw(10)<<left<<2020<<"| "<<setw(10)<<left<<2021<<"|"<<endl;
+        cout<<"| "<<setw(10)<<left<<mDatos2016[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2017[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2018[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2019[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2020[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2021[i][j].IDP<<"| "<<endl;                 
     }
-    
-    return 0;
+
 }
+
+
 
