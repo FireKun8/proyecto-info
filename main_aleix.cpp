@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <windows.h>
+#include <conio.h>
 using namespace std;
 
 const int NLOC = 283;
@@ -38,8 +40,36 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
 void listadorDatos(mIndex mMigraciones, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado);
 void imprimirDatos(vector<tListador>& vLista, int intro);
 
+void gotoxy(int x, int y){
+HANDLE consola; COORD posicion;
+consola = GetStdHandle(STD_OUTPUT_HANDLE);
+posicion.X = x; posicion.Y = y;
+SetConsoleCursorPosition(consola, posicion);
+}
+
+char menu(){
+    char option; system("cls");
+    system("cls");
+    gotoxy(5, 2); cout << "1.- Listar datos demograficos y migratorios de un pais";
+    gotoxy(5, 3); cout << "2.- Listar paises por maximos y minimos de poblacion, migracion y refugiados";
+    gotoxy(5, 4); cout << "3.- Calcular porcentajes de migracion respecto totales";
+    gotoxy(5, 5); cout << "4.- Buscar paises de destino mas frecuente en funcion del pais de origen del refugiado";
+    gotoxy(5, 6); cout << "5.- Estadisticas de tendencias sobre migraciones";
+    gotoxy(5, 7); cout << "0-. Salir";
+    gotoxy(5, 8); cout << "Elija una opcion";
+    option = getche();
+    system("cls");
+    return option;
+}
+
 
 int main(){
+
+    char opcion = ' ';
+    while (opcion != '0') {
+    opcion = menu();
+    }
+
     ifstream datos("migraciones.csv");
 
     mIndex mMigraciones;
