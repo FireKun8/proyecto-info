@@ -46,7 +46,7 @@ void leerDatos_paises(tPaises& tabPaises)
     {
         while (getline(codi, line))
         {
-            stringstream ss(line);
+            stringstream ss (line);
             getline (ss, aux, ';');
             getline (ss, tabPaises[0][cont], ';');
             getline (ss, tabPaises[1][cont], ';'); 
@@ -193,7 +193,7 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
 void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021)
 {
     string ISO_origen, ISO_dest;
-    cout<<"Inserta el codigo ISO de un pais del pais de origen:"<<endl;
+    cout<<"Inserta el codigo ISO del pais de origen:"<<endl;
     cin>>ISO_origen;
     cout<<"Inserta el codigo ISO de un pais del pais de destinacion:"<<endl;
     cin>>ISO_dest;
@@ -204,8 +204,8 @@ void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& m
     leerDatos_paises(t);
     if (i==j)
     {   
-        cout<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<t[0][i]<<":"<<endl<<endl;
-        cout<<"| "<<setw(10)<<left<<2016<<"| "<<setw(10)<<left<<2017<<"| "<<setw(10)<<left<<2018<<"| "<<setw(10)<<left<<2019<<"| "<<setw(10)<<left<<2020<<"| "<<setw(10)<<left<<2021<<"|"<<endl;
+        cout<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<t[0][i]<<" :"<<endl<<endl;
+        cout<<"| "<<setw(10)<<left<<"2016"<<"| "<<setw(10)<<left<<"2017"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
         cout<<"| "<<setw(10)<<left<<mDatos2016[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2017[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2018[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2019[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2020[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2021[i][j].IDP<<"| "<<endl;                 
     }
 
