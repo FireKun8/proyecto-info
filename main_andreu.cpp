@@ -176,6 +176,9 @@ void leerDatos_ref(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDat
                 }
                
             }
+            getline(ss, aux, ',');
+            getline(ss, aux, ',');
+            getline(ss, aux, ',');
                         
         }        
 
