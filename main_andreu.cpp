@@ -58,6 +58,7 @@ void leerDatos_paises(tPaises& tabPaises)
 int asignador(string ISO)
 {
     tPaises t;
+    leerDatos_paises(t);
     int asign;
     bool trobat = false;
     for (int j = 0; j <NP && !trobat; j++)
