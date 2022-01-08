@@ -202,11 +202,37 @@ void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& m
     int j = asignador(ISO_dest);
     tPaises t;
     leerDatos_paises(t);
+
     if (i==j)
     {   
         cout<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<t[0][i]<<" :"<<endl<<endl;
         cout<<"| "<<setw(10)<<left<<"2016"<<"| "<<setw(10)<<left<<"2017"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
-        cout<<"| "<<setw(10)<<left<<mDatos2016[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2017[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2018[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2019[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2020[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2021[i][j].IDP<<"| "<<endl;                 
+        for(int k = 0; k < 60; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl<<"| "<<setw(10)<<left<<mDatos2016[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2017[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2018[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2019[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2020[i][j].IDP<<"| "<<setw(10)<<left<<mDatos2021[i][j].IDP<<"| "<<endl;                 
+    }
+
+    else 
+    {
+        cout<<" NUMERO DE REFUGIADOS ORIGINARIOS DE "<<t[0][i]<<" EN "<<t[0][j]<<" :"<<endl<<endl;
+        cout<<"| "<<setw(10)<<left<<"2016"<<"| "<<setw(10)<<left<<"2017"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+        for(int k = 0; k < 60; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl<<"| "<<setw(10)<<left<<mDatos2016[i][j].ref<<"| "<<setw(10)<<left<<mDatos2017[i][j].ref<<"| "<<setw(10)<<left<<mDatos2018[i][j].ref<<"| "<<setw(10)<<left<<mDatos2019[i][j].ref<<"| "<<setw(10)<<left<<mDatos2020[i][j].ref<<"| "<<setw(10)<<left<<mDatos2021[i][j].ref<<"| "<<endl;  
+        
+        cout<<endl<<endl<<" NUMERO DE SOLICITANTES DE ASILO ORIGINARIOS DE "<<t[0][i]<<" EN "<<t[0][j]<<" :"<<endl<<endl;
+        cout<<"| "<<setw(10)<<left<<"2016"<<"| "<<setw(10)<<left<<"2017"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+        for(int k = 0; k < 60; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl<<"| "<<setw(10)<<left<<mDatos2016[i][j].asilo<<"| "<<setw(10)<<left<<mDatos2017[i][j].asilo<<"| "<<setw(10)<<left<<mDatos2018[i][j].asilo<<"| "<<setw(10)<<left<<mDatos2019[i][j].asilo<<"| "<<setw(10)<<left<<mDatos2020[i][j].asilo<<"| "<<setw(10)<<left<<mDatos2021[i][j].asilo<<"| "<<endl;      
+    
+    
     }
 
 }
