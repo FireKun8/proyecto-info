@@ -10,9 +10,9 @@ const int NP = 250;
 
 struct tDatos 
 {
-    int refu;
-    int asilo;
-    int IDP;
+    int refu[6];
+    int asilo[6];
+    int IDP[6];
 };
 
 typedef tDatos mDatos[NP][NP];
@@ -21,15 +21,15 @@ typedef string tPaises[2][NP];
 void leerDatos_paises(tPaises& tabPaises);
 int  asignador(string ISO);
 void rellenar(mDatos& mDatos20XX);
-void leerDatos_refu(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021);
-void imprimir(mDatos& mDatos2016,mDatos& mDatos2017,mDatos& mDatos2018,mDatos& mDatos2019,mDatos& mDatos2020,mDatos& mDatos2021);
+void leerDatos_refu(mDatos& mDatos20XX);
+void imprimir(mDatos& mDatos20XX);
 
 int main()
 {
     cout<<"1"<<endl;
-    mDatos mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021;
-    leerDatos_refu(mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021);
-    imprimir(mDatos2016, mDatos2017, mDatos2018, mDatos2019, mDatos2020, mDatos2021);
+    mDatos mDatos20XX;
+    leerDatos_refu(mDatos20XX);
+    imprimir(mDatos20XX);
     return 0;
 }
 
@@ -71,13 +71,16 @@ int asignador(string ISO)
 
 void rellenar(mDatos& mDatos20XX)
 {
-    for (int i=0;i<NP; i++)
+    for (int i=0; i<NP ; i++)
     {
-        for (int j=0;j<NP; j++)
+        for (int j=0; j<NP ; j++)
         {
-            mDatos20XX[i][j].refu = 0;
-            mDatos20XX[i][j].asilo = 0;
-            mDatos20XX[i][j].IDP = 0;
+            for (int k=0; k<6 ; k++)
+            {
+            mDatos20XX[i][j].refu[k] = 0;
+            mDatos20XX[i][j].asilo[k] = 0;
+            mDatos20XX[i][j].IDP[k] = 0;
+            }
         }
     }
 }
