@@ -36,8 +36,8 @@ struct tListador
 typedef tDatos mIndex[NLOC];
 typedef tLocalizaciones mGestorLoc[NLOC];
 
-void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre);
-void listadorDatos(mIndex mMigraciones, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado);
+void leerDatos(mIndex& mDatos, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre, string fichero);
+void listadorDatos(mIndex mDatos, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado);
 void imprimirDatos(vector<tListador>& vLista, int intro);
 
 
@@ -45,23 +45,20 @@ void imprimirDatos(vector<tListador>& vLista, int intro);
 
 int main(){
 
-
-    ifstream datos("migraciones.csv");
-
     mIndex mMigraciones;
+    mIndex mPoblacion;
     mGestorLoc mLocalizaciones;
     vector<int> vLocPadre;
     vector<tListador> vLista;
     vector<int> vDemandado = {900};
 
-    leerDatos(mMigraciones, mLocalizaciones, vLocPadre);
-    listadorDatos(mMigraciones, mLocalizaciones, vLista, vDemandado);
-    imprimirDatos(vLista, 1);
+    leerDatos(mMigraciones, mLocalizaciones, vLocPadre, "migraciones.csv");
+    leerDatos(mPoblacion, mLocalizaciones, vLocPadre, "poblacion.csv");
     return 0;
 }
 
-void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre){
-    ifstream datos("migraciones.csv");
+void leerDatos(mIndex& mDatos, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre, string fichero){
+    ifstream datos(fichero);
 
     string linea;
     int ref, codigo;
@@ -69,7 +66,7 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
     string localizacion;
     int numDatos[3][7];
     int contador = 0;
-
+    
     if(datos.is_open()){
         while(getline(datos, linea)){
             bool temp = false;
@@ -81,7 +78,7 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
                 temp = true;
             }
             getline(ss, aux, ',');
-            mMigraciones[contador].lCodigo = stoi(aux);
+            mDatos[contador].lCodigo = stoi(aux);
             if(temp == true){
                 vLocPadre.push_back(stoi(aux));
             }
@@ -90,10 +87,10 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
                 for(int j = 0; j < NANOS; j++){
                     getline(ss, aux, ',');
                     if(aux != ".."){
-                        mMigraciones[contador].poblTotal[j][i] = stoi(aux);
+                        mDatos[contador].poblTotal[j][i] = stoi(aux);
                     }
                     else{
-                        mMigraciones[contador].poblTotal[j][i] = -1;
+                        mDatos[contador].poblTotal[j][i] = -1;
                     }
                 }
             }
@@ -102,7 +99,7 @@ void leerDatos(mIndex& mMigraciones, mGestorLoc& mLocalizaciones, vector<int>& v
     }
 }
 
-void listadorDatos(mIndex mMigraciones, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado){
+void listadorDatos(mIndex mDatos, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado){
     for(int i = 0; i < vDemandado.size(); i++){
         vLista.push_back(tListador());
         bool encontrado = false;
@@ -117,7 +114,7 @@ void listadorDatos(mIndex mMigraciones, mGestorLoc mLocalizaciones, vector<tList
         }
         for(int j = 0; j < NCAT; j++){
             for(int k = 0; k < NANOS; k++){
-                vLista[i].poblTotal[k][j] = mMigraciones[i].poblTotal[k][j];
+                vLista[i].poblTotal[k][j] = mDatos[i].poblTotal[k][j];
             }
         }
     }
