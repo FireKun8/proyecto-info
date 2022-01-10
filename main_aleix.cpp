@@ -48,12 +48,19 @@ int main(){
     mIndex mMigraciones;
     mIndex mPoblacion;
     mGestorLoc mLocalizaciones;
+    mGestorLoc mLocalizaciones2;
     vector<int> vLocPadre;
     vector<tListador> vLista;
-    vector<int> vDemandado = {900};
+    vector<int> vDemandado;
+
+    for(int i = 0; i < NLOC; i++){
+        vDemandado.push_back(mLocalizaciones[i].codigo);
+    }
 
     leerDatos(mMigraciones, mLocalizaciones, vLocPadre, "migraciones.csv");
-    leerDatos(mPoblacion, mLocalizaciones, vLocPadre, "poblacion.csv");
+    leerDatos(mPoblacion, mLocalizaciones2, vLocPadre, "poblacion.csv");
+    listadorDatos(mMigraciones, mLocalizaciones, vLista, vDemandado);
+    imprimirDatos(vLista, 1);
     return 0;
 }
 
@@ -108,6 +115,10 @@ void listadorDatos(mIndex mDatos, mGestorLoc mLocalizaciones, vector<tListador>&
             if(vDemandado[i] == mLocalizaciones[index].codigo){
                 vLista[i].codigo = mLocalizaciones[index].codigo;
                 vLista[i].localizacion = mLocalizaciones[index].localizacion;
+                encontrado = true;
+            }
+            else if(index == NLOC){
+                cout << "Codigo no coincidente." << endl;
                 encontrado = true;
             }
             index++;
