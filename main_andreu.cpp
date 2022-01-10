@@ -7,17 +7,17 @@
 
 using namespace std;
 
-const int NP = 250;
+const int NLOC = 250;
 const int NA = 4;
 
-struct tDatos
+struct tDatosRefug
 {
     int refu[NA] ;
     int IDP[NA] ;
 };
 
-typedef tDatos mDatos[NP][NP];
-typedef string tPaises[2][NP];
+typedef tDatosRefug mDatos[NLOC][NLOC];
+typedef string tPaises[2][NLOC];
 
 void leerDatos_paises(tPaises& tabPaises);
 int  asignador(string ISO, const tPaises t);
@@ -65,7 +65,7 @@ int asignador(string ISO, const tPaises t)
 {
     int asign;
     bool trobat = false;
-    for (int j = 0; j <NP && !trobat; j++)
+    for (int j = 0; j <NLOC && !trobat; j++)
     {
         if (ISO==t[1][j])
         {
@@ -78,9 +78,9 @@ int asignador(string ISO, const tPaises t)
 
 void rellenar(mDatos& mDatos20XX)
 {
-    for (int i=0; i<NP ; i++)
+    for (int i=0; i<NLOC ; i++)
     {
-        for (int j=0; j<NP ; j++)
+        for (int j=0; j<NLOC ; j++)
         {
 
             for (int k=0; k<NA ; k++)
@@ -91,6 +91,7 @@ void rellenar(mDatos& mDatos20XX)
         }
     }
 }
+
 
 void leerDatos_refu(mDatos& mDatos20XX, const tPaises t)
 {
@@ -197,7 +198,7 @@ void insertar_ISO(int& i, int& j, const tPaises t)
 void ranking(mDatos& mDatos20XX, const tPaises t)
 {
     string ISO_origen, ISO_dest;
-    int j_max[NP];
+    int j_max[NLOC];
     int i=252, j=252;
     while(!(i<251 && i>=0))
     {
@@ -240,7 +241,7 @@ int maximo(const mDatos mDatos20XX,const int i, const int any)
 {
     int aux=0, j_maxi=0, cont=0;
 
-    for (int j=0; j<NP ; j++)
+    for (int j=0; j<NLOC ; j++)
     {
         if (aux < mDatos20XX[i][j].refu[any])
         {
