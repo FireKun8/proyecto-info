@@ -36,7 +36,7 @@ int main()
     leerDatos_paises(t);
     rellenar(mDatos20XX);
     leerDatos_refu(mDatos20XX, t);
-    //imprimir(mDatos20XX, t);
+    imprimir(mDatos20XX, t);
     ranking(mDatos20XX, t);
 
     return 0;
