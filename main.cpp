@@ -302,7 +302,7 @@ int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any)
 
 //SUBPROGRAMAS ALEIX-------------------------------------------------------------------------------------------
 
-//Leer LEER DATOS POBL. Y MEIGR.
+//Leer datos poblaciones y migraciones
 void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero){
     ifstream datos(fichero);
 
