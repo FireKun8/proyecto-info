@@ -8,17 +8,11 @@
 #include <conio.h>
 using namespace std;
 
-const int NLOC = 283;
+const int NLOC = 250;
 const int NANOS = 7;
 const int NCAT = 3;
 
 typedef int mPobl[NANOS][NCAT];
-
-struct tLocalizaciones
-{
-    int codigo;
-    string localizacion;
-};
 
 struct tDatos
 {
@@ -34,7 +28,7 @@ struct tListador
 };
 
 typedef tDatos mIndex[NLOC];
-typedef tLocalizaciones mGestorLoc[NLOC];
+typedef string tPaises[2][NP];
 
 void leerDatos(mIndex& mDatos, mGestorLoc& mLocalizaciones, vector<int>& vLocPadre, string fichero);
 void listadorDatos(mIndex mDatos, mGestorLoc mLocalizaciones, vector<tListador>& vLista, vector<int> vDemandado);
