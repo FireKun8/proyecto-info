@@ -52,7 +52,7 @@ typedef tDatosRefug mDatosRefug[NLOC][NLOC]; //matriz refug. (andreu)
 typedef tDatosPobl mDatosPobl[NLOC]; //array refug. (aleix)
 typedef tDatosISO mISO[NLOC]; //array ISO
 
-//DEF. SUBRPOGRAMAS
+//DEF. SUBRPOGRAMAS------------------------------------------------------------------------------------------
 void leerDatosISO(mISO& tabISO);
 int asignador(string ISO, const mISO tabISO);
 void leerDatosRefug(mDatosRefug& mDatos20XX, const mISO tabISO);
@@ -177,7 +177,7 @@ void leerDatosRefug(mDatosRefug& mDatos20XX, const mISO tabISO)
 }
 
 //Imprimir Datos Refugiados
-void imprimirRefug(mDatosRefug& mDatos20XX, const mISO tabISO)
+void imprimirRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
     int i,j;
     insertar_ISO(i,j,tabISO);
@@ -241,47 +241,53 @@ void insertar_ISO(int& i, int& j, const mISO tabISO)
 }
 
 //Ranking
-void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO)
+void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
-    string ISO_origen, ISO_dest;
-    int j_max[NLOC];
-    int i=252, j=252;
-    while(!(i<251 && i>=0))
+    for(int m = 0; m < vDemandado.size(); m++)
     {
-        cout<<"Inserta el codigo ISO del pais de origen:"<<endl;
-        cin>>ISO_origen;
-        i = asignador(ISO_origen,tabISO);
-        if (!(i<251 && i>=0))
+        string ISO_origen, ISO_dest;
+        int j_max[NLOC];
+        int i=252, j=252;
+        while(!(i<251 && i>=0))
         {
-            cout<<"*!*No es una referencia valida. Recuerda usar mayusculas al insertar los codigos ISO.*!*"<<endl<<endl;
+            cout<<"Inserta el codigo ISO del pais de origen:"<<endl;
+            cin>>ISO_origen;
+            i = asignador(ISO_origen,tabISO);
+            if (!(i<251 && i>=0))
+            {
+                cout<<"*!*No es una referencia valida. Recuerda usar mayusculas al insertar los codigos ISO.*!*"<<endl<<endl;
+            }
         }
-    }
-    for (int k=0; k<NA ; k++)
-    {
-        j_max[k] = maximoRefug(mDatos20XX, i, k);
+        
+        for (int k=0; k<NA ; k++)
+        {
+            j_max[k] = maximoRefug(mDatos20XX, i, k);
+        }
+
+        cout<<endl<<endl<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais<<endl<<endl;
+        cout<<"| "<<setw(6)<<left<<"ANO"<<"| "<<setw(60)<<left<<"PAIS "<<"| "<<setw(11)<<left<<"REFUGIADOS"<<"|"<<endl;
+        for(int k = 0; k < 89; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl;
+        for (int k=0; k < NA; k++)
+        {
+            if (j_max[k] == -1)
+            {
+                cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<"No hay ningun pais con refugiados de este origen"<<"| "<<setw(11)<<left<<"-------"<<"|"<<endl;
+            }
+            else cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|"<<endl;
+        }
+        for(int k = 0; k < 89; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl;
+        }
     }
 
-    cout<<endl<<endl<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais<<endl<<endl;
-    cout<<"| "<<setw(6)<<left<<"ANO"<<"| "<<setw(60)<<left<<"PAIS "<<"| "<<setw(11)<<left<<"REFUGIADOS"<<"|"<<endl;
-    for(int k = 0; k < 89; k++)
-    {
-        cout<<"-";
-    }
-    cout<<endl;
-    for (int k=0; k < NA; k++)
-    {
-        if (j_max[k] == -1)
-        {
-            cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<"No hay ningun pais con refugiados de este origen"<<"| "<<setw(11)<<left<<"-------"<<"|"<<endl;
-        }
-        else cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|"<<endl;
-    }
-    for(int k = 0; k < 89; k++)
-    {
-        cout<<"-";
-    }
-    cout<<endl;
-}
+    
 
 //Encontrar número de refugiados máximo
 int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any)
@@ -359,7 +365,7 @@ void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, ve
     }
 }
 
-//IMPRIMIR DATOS POBL. Y MEIGR.
+//Imprimir datos poblaciones y migraciones
 void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     cout << "| " << setw(20) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
     for(int i = 0; i < 139; i++){
