@@ -333,7 +333,7 @@ void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero){
     }
 }
 
-//LISTAR DATOS POBL. Y MEIGR.
+//Listar Datos LISTAR DATOS POBL. Y MEIGR.
 void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
     for(int i = 0; i < vDemandado.size(); i++){
         vLista.push_back(tListador());
