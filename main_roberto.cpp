@@ -28,13 +28,10 @@ int main (){
     switch (opcion){
 
         case '1':
-            opcion = ' ';
-            while (opcion != '0'){
-                menu1();
-
-            }
             
-             break;
+            menu1();
+            
+            break;
 
         case '2':
             opcion = ' ';
@@ -60,11 +57,9 @@ int main (){
             break;
 
         case '5':
-            opcion = ' ';
-            while (opcion != '0'){
-                opcion = menu5(aux1);
-            }
 
+            menu5();
+            
             break;
 
         case '6':
@@ -181,31 +176,25 @@ char menu4(int aux_pais){
 
 }
 
-char menu5(int aux_pais){
-    string pais;
+void menu5(int pais_origen){
     char option; system("cls");
     gotoxy(5, 2); cout << "BUSCAR PAISES DE DESTINO MAS FRECUENTESEN FUNCION DEL PAIS DE ORIGEN DEL REFUGIADO";
-    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
+    gotoxy(5, 5); cout << "Introduzca el ISO del pais de origen de los refugiados";
     gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
     gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
     gotoxy(5, 10); cout << "Pais: ";
-    /*cin >> pais;*/
-    option = getche();
-
-    return /*aux_pais*/ option;
+    cin >> pais_origen;
 }
 
-char menu6(int aux_pais){
-    string pais;
+void menu6(string pais_origen, string pais_destino){
     char option; system("cls");
     gotoxy(5, 2); cout << "ESTADISTICAS DE TENDENCIAS SOBRE MIGRACIONES";
-    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
+    gotoxy(5, 5); cout << "Introduce el ISO del pais de origen y de destino de los refugiados";
     gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
     gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
-    gotoxy(5, 10); cout << "Pais: ";
-    /*cin >> pais;*/
-    option = getche();
-
-    return /*aux_pais*/ option;
+    gotoxy(5, 10); cout << "Pais de Origen: ";
+    cin >> pais_origen;
+    gotoxy(5, 12); cout << "Pais de Destino: ";
+    cin >> pais_destino;
 
 }
