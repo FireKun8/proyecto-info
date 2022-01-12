@@ -6,9 +6,10 @@
 #include <vector>
 #include <windows.h>
 #include <conio.h>
+#include <algorithm>
 using namespace std;
 
-//CONSTANTS------------------------------------------------------------------------------------------------
+//CONSTANTES------------------------------------------------------------------------------------------------
 const int NLOC = 250; //Numero paises
 const int NANOS = 7; //Numero años pobl. y migr. (aleix)
 const int NCAT = 3; //Numero categorias pobl. y migr. (aleix)
@@ -60,29 +61,43 @@ void insertar_ISO(int& i, int& j, const mISO tabISO);
 void imprimirRefug(mDatosRefug& mDatos20XX, const mISO tabISO);
 int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any);
 void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO);
+bool comprovarISO(string ISO, mISO tabISO);
 
 void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero);
 void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
 void imprimirDatosPobl(vector<tListador>& vLista, int intro);
 
+//DEF. SUBPROGRAMAS MENU------------------------------------------------------------------------
+void menu_principal(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
+void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
+
 
 //MAIN------------------------------------------------------------------------------------------------
 int main()
 {
+    //DECLARACION VARIABLES PRINCIPALES
     mDatosRefug mDatosRefug20XX;
     mDatosPobl mDatosPobl, mDatosMigr;
     mISO tabISO;
     vector<tListador> vLista;
     vector<string> vDemandado = {"ESP"};
+    vector<int> vDemandado1 = {1, 7, 9, 10, 14};
     leerDatosISO(tabISO);
+
+    leerDatosPobl(mDatosMigr, tabISO, "migraciones.csv");
+    leerDatosPobl(mDatosPobl, tabISO, "poblacion.csv");
+
+    //VARIABLES DEL MENU----------------------------
     
+    //SWITCH DEL MENU PRINCIPAL--------------------------------------------------------------------
+    menu_principal(mDatosPobl, tabISO, vLista, vDemandado);
+
     //leerDatosRefug(mDatosRefug20XX, tabISO);
     //imprimirRefug(mDatosRefug20XX, tabISO);
     
-    leerDatosPobl(mDatosMigr, tabISO, "migraciones.csv");
-    leerDatosPobl(mDatosPobl, tabISO, "poblacion.csv");
-    listadorDatos(mDatosPobl, tabISO, vLista, vDemandado);
-    imprimirDatosPobl(vLista, 1);
+
+    //listadorDatos(mDatosPobl, tabISO, vLista, vDemandado);
+    //imprimirDatosPobl(vLista, 1);
 }
 
 //SUBPROGRAMAS GLOBALES------------------------------------------------------------------------------------------------
@@ -179,86 +194,83 @@ void leerDatosRefug(mDatosRefug& mDatos20XX, const mISO tabISO)
 //Imprimir Datos Refugiados
 void imprimirRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
-    int i,j;
-    insertar_ISO(i,j,tabISO);
+    int i,j, aux;
+    bool IDP = false;
 
-    if (i==j)
+    i = asignador(vDemandado[0],tabISO);
+
+    cout<<endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
+    cout<<"| "<<setw(60)<<left<<"DESTINO"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+    for(int k = 0; k < 111; k++)
     {
-        cout<<endl<<endl<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<tabISO[i].pais<<" :"<<endl<<endl;
-        cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
-        for(int k = 0; k < 49; k++)
+        cout<<"-";
+    }
+    cout<<endl;
+
+    for(int m=1; m<vDemandado.size(); m++)
+    {
+        j = asignador(vDemandado[m],tabISO);
+
+        if (i==j)
         {
-            cout<<"-";
+            aux = j;
+            IDP = true;
         }
-        cout<<endl;
-        for (int k=0; k < NA; k++)
+
+        else
         {
-            cout<<"| "<<setw(10)<<left<<mDatos20XX[i][j].IDP[k];
+            cout<<"| "<<setw(60)<<left<<tabISO[j].pais;
+            for (int k=0; k < NA; k++)
+            {
+                cout<<"| "<<setw(10)<<left<<mDatos20XX[i][j].refu[k];
+            }
+            cout<<"| "<<endl;
         }
-        cout<<"| "<<endl;
     }
 
-    else
+    for(int k = 0; k < 111; k++)
     {
-        cout<<endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN "<<tabISO[j].pais<<" :"<<endl<<endl;
-        cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
-        for(int k = 0; k < 49; k++)
-        {
-            cout<<"-";
-        }
-        cout<<endl;
-        for (int k=0; k < NA; k++)
-        {
-            cout<<"| "<<setw(10)<<left<<mDatos20XX[i][j].refu[k];
-        }
-        cout<<"| "<<endl;
+        cout<<"-";
     }
+    cout<<endl;
 
+    if (IDP)
+        {
+            cout<<endl<<endl<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<tabISO[i].pais<<" :"<<endl<<endl;
+            cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+            for(int k = 0; k < 49; k++)
+            {
+                cout<<"-";
+            }
+            cout<<endl;
+            for (int k=0; k < NA; k++)
+            {
+                cout<<"| "<<setw(10)<<left<<mDatos20XX[i][aux].IDP[k];
+            }
+            cout<<"| "<<endl;
+        }
 }
 
-//Insertar codigo ISO (cin)
-void insertar_ISO(int& i, int& j, const mISO tabISO)
-{
-    i=252, j=252;
-    string ISO_origen, ISO_dest;
-
-    while(!((i<251 && i>=0) && (j<251 && j>=0)))
-    {
-
-        cout<<"Inserta el codigo ISO del pais de origen:"<<endl;
-        cin>>ISO_origen;
-        cout<<"Inserta el codigo ISO del pais de destinacion:"<<endl;
-        cin>>ISO_dest;
-
-        i = asignador(ISO_origen,tabISO);
-        j = asignador(ISO_dest,tabISO);
-
-        if (!((i<251 && i>=0) && (j<251 && j>=0)))
-        {
-            cout<<"*!*No es una referencia valida. Recuerda usar mayusculas al insertar los codigos ISO.*!*"<<endl<<endl;
+//Comprovar ISO
+bool comprovarISO(string ISO, mISO tabISO){
+    bool encontrado = false;
+    for(int i = 0; (i < NLOC) && (encontrado == false); i++){
+        if(ISO == tabISO[i].ISO || ISO == "---"){
+            encontrado = true;
         }
     }
+    return encontrado;  
 }
 
 //Ranking
 void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
+    int j_max[NA];
+
     for(int m = 0; m < vDemandado.size(); m++)
     {
-        string ISO_origen, ISO_dest;
-        int j_max[NLOC];
-        int i=252, j=252;
-        while(!(i<251 && i>=0))
-        {
-            cout<<"Inserta el codigo ISO del pais de origen:"<<endl;
-            cin>>ISO_origen;
-            i = asignador(ISO_origen,tabISO);
-            if (!(i<251 && i>=0))
-            {
-                cout<<"*!*No es una referencia valida. Recuerda usar mayusculas al insertar los codigos ISO.*!*"<<endl<<endl;
-            }
-        }
-        
+        int i = asignador(vDemandado[m],tabISO);
+
         for (int k=0; k<NA ; k++)
         {
             j_max[k] = maximoRefug(mDatos20XX, i, k);
@@ -266,7 +278,7 @@ void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDe
 
         cout<<endl<<endl<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais<<endl<<endl;
         cout<<"| "<<setw(6)<<left<<"ANO"<<"| "<<setw(60)<<left<<"PAIS "<<"| "<<setw(11)<<left<<"REFUGIADOS"<<"|"<<endl;
-        for(int k = 0; k < 89; k++)
+        for(int k = 0; k < 84; k++)
         {
             cout<<"-";
         }
@@ -279,15 +291,15 @@ void rankingRefug(mDatosRefug& mDatos20XX, const mISO tabISO, vector<string> vDe
             }
             else cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|"<<endl;
         }
-        for(int k = 0; k < 89; k++)
+        for(int k = 0; k < 84; k++)
         {
             cout<<"-";
         }
         cout<<endl;
-        }
     }
+}
 
-    
+ 
 
 //Encontrar número de refugiados máximo
 int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any)
@@ -392,4 +404,214 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
         }
         cout << endl;
     }
+}
+
+//SUBPROGRAMAS ROBERTO-------------------------------------------------------------------------------------------
+
+void gotoxy(int x, int y){
+    HANDLE consola; COORD posicion;
+    consola = GetStdHandle(STD_OUTPUT_HANDLE);
+    posicion.X = x; posicion.Y = y;
+    SetConsoleCursorPosition(consola, posicion);
+}
+
+void menu_principal(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
+    system("cls");
+    gotoxy(5, 2);cout << "|1| - Consultar datos demograficos de un pais";
+    gotoxy(5, 3);cout << "|2| - Consultar datos migratorios de un pais";
+    gotoxy(5, 4);cout << "|3| - Listar paises por maximos y minimos de poblacion, migracion y refugiados";
+    gotoxy(5, 5);cout << "|4| - Calcular porcentajes de migracion respecto totales";
+    gotoxy(5, 6);cout << "|5| - Buscar paises de destino mas frecuente en funcion del pais de origen del refugiado";
+    gotoxy(5, 7);cout << "|6| - Estadisticas de tendencias sobre migraciones";
+    gotoxy(5, 8);cout << "|7| - Ver la lista de codigos ISO de cada pais";
+    gotoxy(5, 9);cout << "|0| - Salir";
+    gotoxy(5, 12);cout <<"Elija una opcion";
+    char opcion;
+    opcion = getche();
+    system("cls");
+
+    switch (opcion){
+
+        case '1':
+            
+            menu1(mDatos, tabISO, vLista, vDemandado);
+            
+            break;
+
+        case '2':
+            opcion = ' ';
+            while (opcion != '0'){
+                //opcion = menu2(aux1);
+            }
+            break;
+
+        case '3':
+            opcion = ' ';
+            while (opcion != '0'){
+                //opcion = menu3(aux1);
+            }
+
+            break;
+
+        case '4':
+            opcion = ' ';
+            while (opcion != '0'){
+                //opcion = menu4(aux1);
+            }
+
+            break;
+
+        case '5':
+
+            //menu5();
+            
+            break;
+
+        case '6':
+            //menu6();
+            
+
+            break;
+
+        case '0':
+            gotoxy(5, 2); cout << "Gracias por usar este programa" << endl;
+            break;
+    
+        default:
+            gotoxy(5, 2); cout << "Introduzca una opcion valida";
+            gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para volver al menu principal" << endl;
+            break;
+    }
+}
+
+
+void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
+    string pais;
+    char opcion; system("cls");
+    gotoxy(5, 2); cout << "DATOS DEMOGRAFICOS";
+    gotoxy(5, 5); cout << "|1| - Buscar por codigo ISO";
+    gotoxy(5, 6); cout << "|2| - Listar todos los paises";
+    gotoxy(5, 8); cout << "Escoje una opcion:";
+    opcion = getche();
+
+    switch(opcion){
+        
+
+        case '1':{
+            char aux;
+            bool aux1 = false;
+            while (!aux1){
+                system("cls");
+                gotoxy(5, 2); cout << "|1| - Consultar los datos totales";
+                gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
+                gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
+                aux = getche();
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != 3){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux1 = true;
+                }
+            }
+            system("cls");
+            string ISOdemandado;
+            int index = 5;
+            gotoxy(5, 2); cout << "Introduzca el codigo ISO de los paises a consuiltar";
+            gotoxy(5, 3); cout << "(Cuando no quieras introducir mas paises, escribe: ---)";
+            while(ISOdemandado != "---"){
+                gotoxy(5, index);cout << "- ";
+                cin >> ISOdemandado;
+                while (!comprovarISO(ISOdemandado ,tabISO))
+                {
+                    gotoxy(5, index+4);cout << "(Introduzca un codigo ISO valido)";
+                    gotoxy(5, index);cout << "- ";
+                    cin >> ISOdemandado;
+                }
+                vDemandado.push_back(ISOdemandado);              
+                index++;
+            }
+            system("cls");
+            listadorDatos(mDatos, tabISO, vLista, vDemandado);
+            imprimirDatosPobl(vLista, aux);
+            break;
+        }
+        case '2':
+
+            //funcion para imprimir todos los datos
+            break;
+
+        default:
+            break;
+    }
+
+}
+
+char menu2(int aux_pais){
+    string pais;
+    char option; system("cls");
+    gotoxy(5, 2); cout << "DATOS MIGRATORIOS";
+    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
+    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
+    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
+    gotoxy(5, 10); cout << "Pais: ";
+    /*cin >> pais;*/
+    option = getche();
+
+    return /*aux_pais*/ option;
+
+}
+
+char menu3(int aux_pais){
+    string pais;
+    char option; system("cls");
+    gotoxy(5, 2); cout << "LISTAR PAISES POR MAXIMOS Y MINIMOS DE POBLACION, MIGRACION Y REFUGIADOS";
+    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
+    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
+    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
+    gotoxy(5, 10); cout << "Pais: ";
+    /*cin >> pais;*/
+    option = getche();
+
+    return /*aux_pais*/ option;
+
+}
+
+char menu4(int aux_pais){
+    string pais;
+    char option; system("cls");
+    gotoxy(5, 2); cout << "CALCULAR PORCENTAJES DE MIGRACION RESPECTO TOTALES";
+    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
+    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
+    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
+    gotoxy(5, 10); cout << "Pais: ";
+    /*cin >> pais;*/
+    option = getche();
+
+    return /*aux_pais*/ option;
+
+}
+
+void menu5(string& pais_origen){
+    char option; system("cls");
+    gotoxy(5, 2); cout << "BUSCAR PAISES DE DESTINO MAS FRECUENTESEN FUNCION DEL PAIS DE ORIGEN DEL REFUGIADO";
+    gotoxy(5, 5); cout << "Introduzca el ISO del pais de origen de los refugiados";
+    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
+    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
+    gotoxy(5, 10); cout << "Pais: ";
+    cin >> pais_origen;
+}
+
+void menu6(string& pais_origen, string& pais_destino){
+    char option; system("cls");
+    gotoxy(5, 2); cout << "ESTADISTICAS DE TENDENCIAS SOBRE MIGRACIONES";
+    gotoxy(5, 5); cout << "Introduce el ISO del pais de origen y de destino de los refugiados";
+    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
+    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
+    gotoxy(5, 10); cout << "Pais de Origen: ";
+    cin >> pais_origen;
+    gotoxy(5, 12); cout << "Pais de Destino: ";
+    cin >> pais_destino;
+
 }
