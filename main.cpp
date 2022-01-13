@@ -379,8 +379,8 @@ void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, ve
 
 //Imprimir datos poblaciones y migraciones
 void imprimirDatosPobl(vector<tListador>& vLista, int intro){
-    cout << "| " << setw(20) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
-    for(int i = 0; i < 139; i++){
+    cout << "| " << setw(35) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
+    for(int i = 0; i < 154; i++){
         if(i == 0){
             cout << "| ";
         }
@@ -390,7 +390,7 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     }
     cout << endl;
     for(int i = 0; i < vLista.size(); i++){
-        cout << "| " << setw(20) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO; 
+        cout << "| " << setw(35) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO; 
         for(int j = 0; j < NANOS; j++){
             if(intro == 1){
                 cout << "| " << setw(12) << vLista[i].poblTotal[j][0];
@@ -413,6 +413,14 @@ void gotoxy(int x, int y){
     consola = GetStdHandle(STD_OUTPUT_HANDLE);
     posicion.X = x; posicion.Y = y;
     SetConsoleCursorPosition(consola, posicion);
+}
+
+//Limpiar una linea
+void limpiadorLinea(int posX, int posY, int longitud){
+    gotoxy(posX, posY);
+    for(int i = 0; i < longitud; i++){
+        cout << " ";
+    }
 }
 
 void menu_principal(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
@@ -525,13 +533,17 @@ void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<str
                 cin >> ISOdemandado;
                 while (!comprovarISO(ISOdemandado ,tabISO))
                 {
-                    gotoxy(5, index+4);cout << "(Introduzca un codigo ISO valido)";
+                    gotoxy(5, 4);cout << "(Introduzca un codigo ISO valido)";
+                    gotoxy(7, index);
+                    limpiadorLinea(7, index, ISOdemandado.size());
                     gotoxy(5, index);cout << "- ";
                     cin >> ISOdemandado;
                 }
+                limpiadorLinea(5, 4, 33);
                 vDemandado.push_back(ISOdemandado);              
                 index++;
             }
+            vDemandado.pop_back();
             system("cls");
             listadorDatos(mDatos, tabISO, vLista, vDemandado);
             imprimirDatosPobl(vLista, aux);
