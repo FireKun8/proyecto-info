@@ -507,6 +507,7 @@ void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<str
 
         case '1':{
             char aux;
+            int valor;
             bool aux1 = false;
             while (!aux1){
                 system("cls");
@@ -514,6 +515,7 @@ void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<str
                 gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
                 gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
                 aux = getche();
+                //valor = aux - '0';
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != 3){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -546,7 +548,7 @@ void menu1(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, vector<str
             vDemandado.pop_back();
             system("cls");
             listadorDatos(mDatos, tabISO, vLista, vDemandado);
-            imprimirDatosPobl(vLista, aux);
+            imprimirDatosPobl(vLista, valor);
             break;
         }
         case '2':
