@@ -75,6 +75,7 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
 void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
 void menu1(mDatosPobl mDatos, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
 void menu2(mDatosPobl mDatos, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
+void menu4(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
 void gotoxy(int x, int y);
 
 
@@ -479,6 +480,33 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
     }
 }
 
+void updateDatos(mDatosPobl mDatosDemo, mDatosRefug mDatosRefugiados, int archivo){ //1 -> Demografico   2 -> Migragracion   3 -> Refugiados
+    if(archivo == 1 || archivo == 2){
+        string ISOdemandado;
+        int categoria, ano, valor;
+        bool encontrado = false;
+        if(archivo == 1){
+            ofstream datos("poblacion.csv");
+        }
+        else if(archivo == 2){
+            ofstream datos("migraciones.csv");
+        }
+        cin >> ISOdemandado;
+        cin >> categoria;
+        cin >> ano;
+        cin >> valor;
+        for(int i = 0; i < NLOC || !encontrado; i++){
+            if(mDatosDemo[i].ISO == ISOdemandado){
+                mDatosDemo[i].poblTotal[ano][categoria] = valor;
+            }
+        }
+    }
+    else if(archivo == 3){
+        ofstream datos("refugiados.csv");
+    }
+    
+}
+
 //Imprimir datos poblaciones y migraciones
 void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     cout << "| " << setw(60) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
@@ -569,7 +597,9 @@ void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDa
             break;
 
         case '4':{
-            percMigrVSPobl(mDatosDemo, mDatosMigr, vDemandado = {"ESP", "USA", "PRK"}, 1, tabISO);
+
+            menu4(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            
             break;
         }
         case '5':
@@ -846,19 +876,47 @@ char menu3(int aux_pais){
 
 }
 
-char menu4(int aux_pais){
-    string pais;
-    char option; system("cls");
-    gotoxy(5, 2); cout << "CALCULAR PORCENTAJES DE MIGRACION RESPECTO TOTALES";
-    gotoxy(5, 5); cout << "Sobre que pais sobre el que quieres consultar los datos? (INTRODUCE SU ISO)";
-    gotoxy(5, 6); cout << "Ejemplo: Afganistan --> AFG";
-    gotoxy(5, 8); cout << "Si desea consultar la lista del ISO de cada pais, escriba: ISO";
-    gotoxy(5, 10); cout << "Pais: ";
-    /*cin >> pais;*/
-    option = getche();
+void menu4(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
+    char opcion; system("cls");
+    int valor;
+    gotoxy(5, 2); cout << "CALCULAR PORCENTAJES DE MIGRACION REPECTO TOTALES";
+    gotoxy(5, 5); cout << "|1| - Consultar los datos totales";
+    gotoxy(5, 6); cout << "|2| - Consultar los datos sobre los hombres";
+    gotoxy(5, 7); cout << "|3| - Consultar los datos sobre las mujeres";
+    gotoxy(5, 8); cout << "(Si desea volver atras, pulse r)";
+    opcion = getche();
+    system("cls");
+    if(opcion == 'r'){
+        menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+    }
+    valor = opcion - 48;
 
-    return /*aux_pais*/ option;
-
+    string ISOdemandado;
+    int index = 5;
+    imprimirISO(tabISO, 100);
+    gotoxy(5, 2); cout << "Introduzca el codigo ISO de los paises, en mayuscula, a consultar";
+    gotoxy(5, 3); cout << "(Cuando no quieras introducir mas paises, escribe: ---)";
+    while(ISOdemandado != "---"){
+        gotoxy(5, index);cout << "- ";
+        cin >> ISOdemandado;
+        while (!comprovarISO(ISOdemandado ,tabISO))
+        {
+            gotoxy(5, 4);cout << "(Introduzca un codigo ISO valido)";
+            gotoxy(7, index);
+            limpiadorLinea(7, index, ISOdemandado.size());
+            gotoxy(5, index);cout << "- ";
+            cin >> ISOdemandado;
+        }
+        limpiadorLinea(5, 4, 33);
+        vDemandado.push_back(ISOdemandado);              
+        index++;
+    }
+    vDemandado.pop_back();
+    system("cls");
+    percMigrVSPobl(mDatosDemo, mDatosMigr, vDemandado, valor, tabISO);
+    cout << "Para volver al menu principal: ";
+    system("pause"); 
+    menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 }
 
 void menu5(string& pais_origen){
