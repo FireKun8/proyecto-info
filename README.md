@@ -10,5 +10,6 @@ Andreu:
 
 - Arreglar percentatges i menu 4.
 - Afegir refug. respecte migrants.
+- Acabar modificar dades i afegir al menu.
 
 
