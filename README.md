@@ -8,8 +8,8 @@ Andreu:
 - Ranking de paises con más refugiados originarios de un pais dado: tiene que pedir los ISOs de los paises de origen sobre los cuales quiere hacer el ranking (que guardará en vDemandado[n]).
 - Ranking de los 30 paises con más desplazados internos (IDP) en función del año: solo tiene que pedir el año (int any), que solo pueden ser any = 2018, 2019, 2020 o 2021.
 
-- Arreglar percentatges i menu 4.
-- Afegir refug. respecte migrants.
-- Acabar modificar dades i afegir al menu.
+- Menu 3 añadir funcion
+- Arreglar desplazados internos a la hora de listar.
+
 
 
