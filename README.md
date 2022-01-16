@@ -10,6 +10,4 @@ Andreu:
 
 - Menu 3 añadir funcion
 - Arreglar desplazados internos a la hora de listar.
-
-
-
+- Afegir credits i acomiadament
