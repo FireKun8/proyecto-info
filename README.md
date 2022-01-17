@@ -11,10 +11,7 @@ Andreu:
 ### COSES A FER
 
 - Menu 3 añadir funcion
-- Arreglar desplazados internos a la hora de listar.
+- Menu 2, que la r i R vagin cap endarrere
 - Afegir credits i acomiadament
 
 ### COSES QUE FALLEN
-
-- Al menu 3 s'acaba el programa.
-- Arreglar barra final menu 6 al posar +1 pais i el cursos final per tornar al menu principal.

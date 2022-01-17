@@ -61,9 +61,8 @@ void leerDatosRefug(mDatosRefug& mDatos20XX, const mISO tabISO);
 void insertar_ISO(int& i, int& j, const mISO tabISO);
 void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO);
 void imprimirISO(const mISO tabISO, int x);
-int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any);
 void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDemandado);
-void rankingIDP(mDatosRefug& mDatos20XX, const mISO tabISO, const int any);
+void rankingIDP(mDatosRefug mDatos20XX, const mISO tabISO, const int any);
 bool comprovarISO(string ISO, mISO tabISO);
 
 void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero);
@@ -71,6 +70,7 @@ void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, ve
 void imprimirDatosPobl(vector<tListador>& vLista, int intro);
 void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string> vDemandado, int sexo, mISO tabISO);
 void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector<string> vDemandado, mISO tabISO);
+void rankingPobl(mDatosPobl mDatosDemo, mISO tabISO, vector<string> vDemandado, int cat, int ano, int tipo);
 
 //DEF. SUBPROGRAMAS MENU------------------------------------------------------------------------
 void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado);
@@ -214,12 +214,16 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
     i = asignador(vDemandado[0],tabISO);
     j = asignador(vDemandado[1],tabISO);
     
-    if (vDemandado.size() == 2 && i == j) IDP = true;
-
+    if (vDemandado.size() == 2 && i == j) 
+    {
+        IDP = true;
+        aux = i;
+    }
+    
     if (!IDP)
     {
-        cout<<endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
-        cout<<"| "<<setw(60)<<left<<"DESTINO"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+        cout << endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
+        cout <<"| "<<setw(60)<<left<<"DESTINO"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
         for(int k = 0; k < 111; k++)
         {
             cout<<"-";
@@ -229,7 +233,7 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
         for(int m=1; m<vDemandado.size(); m++)
         {
             j = asignador(vDemandado[m],tabISO);
-
+             
             if (i==j)
             {
                 aux = j;
@@ -246,30 +250,30 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
                 cout<<"| "<<endl;
             }
         }
-
+        
         for(int k = 0; k < 111; k++)
+        {
+            cout << "-";
+        }
+        cout << endl;
+    }
+    
+
+    if (IDP)
+    {
+        cout<<endl<<endl<<"NUMERO DE DESPLAZADOS INTERNOS EN "<<tabISO[i].pais<<" :"<<endl<<endl;
+        cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+        for(int k = 0; k < 49; k++)
         {
             cout<<"-";
         }
         cout<<endl;
-    }
-    
-
-    else if (IDP)
+        for (int k=0; k < NA; k++)
         {
-            cout<<endl<<endl<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<tabISO[i].pais<<" :"<<endl<<endl;
-            cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
-            for(int k = 0; k < 49; k++)
-            {
-                cout<<"-";
-            }
-            cout<<endl;
-            for (int k=0; k < NA; k++)
-            {
-                cout<<"| "<<setw(10)<<left<<mDatos20XX[i][aux].IDP[k];
-            }
-            cout<<"| "<<endl;
+            cout<<"| "<<setw(10)<<left<<mDatos20XX[i][aux].IDP[k];
         }
+        cout<<"| "<<endl;
+    }
 }
 
 //Comprovar ISO
@@ -286,17 +290,27 @@ bool comprovarISO(string ISO, mISO tabISO){
 //Ranking de paises con más refugiados originarios de un pais dado
 void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
-    int aux = 6;
-    int aux2 = 0;
+    int aux = 0;
     int j_max[NA];
 
     for(int m = 0; m < vDemandado.size(); m++)
     {
         int i = asignador(vDemandado[m],tabISO);
 
-        for (int k=0; k<NA ; k++)
+        for (int k = 0; k<NA ; k++)
         {
-            j_max[k] = maximoRefug(mDatos20XX, i, k);
+            int aux=0, cont=0;
+
+            for (int j = 0; j < NLOC ; j++)
+            {
+                if (aux < mDatos20XX[i][j].refu[k])
+                {
+                    j_max[k] = j;
+                    aux = mDatos20XX[i][j].refu[k];
+                }
+            }
+            if (aux == 0) j_max[k] = -1;
+            
         }
 
         gotoxy(5,m*10 + 2); cout<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais;
@@ -307,53 +321,30 @@ void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDem
             cout<<"-";
         }
         cout << "|";
-        for (int k=0; k < NA; k++)
+        for (int k = 0; k < NA; k++)
         {
             if (j_max[k] == -1)
             {
                 gotoxy(5,m*10 + k + 6); cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<"No hay ningun pais con refugiados de este origen"<<"| "<<setw(11)<<left<<"-------"<<"|";
             }
             else gotoxy(5,m*10 + k + 6);  cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|";
-            aux++;
         }
-        gotoxy(5,m*10 +  aux); cout << "|";
-        for(int k = 0; k < 82; k++)
-        {
-            cout<<"-";
-        }
-        cout << "|";
-        aux2++;
+        aux++;
     }
-    gotoxy(5,10*aux2 + aux + 1);
+    gotoxy(5,10*aux + 2);
 }
 
-//Encontrar número de refugiados máximo de un origen dado
-int maximoRefug(const mDatosRefug mDatos20XX,const int i, const int any)
-{
-    int aux=0, j_maxi=0, cont=0;
-
-    for (int j=0; j<NLOC ; j++)
-    {
-        if (aux < mDatos20XX[i][j].refu[any])
-        {
-            j_maxi = j;
-            aux = mDatos20XX[i][j].refu[any];
-        }
-    }
-    if (aux == 0) return -1;
-    else return j_maxi;
-}
 
 //Ranking de los 30 paises con más desplazados internos (IDP) en función del año
 
-void rankingIDP(mDatosRefug& mDatos20XX, const mISO tabISO, const int any)
+void rankingIDP(mDatosRefug mDatos20XX, const mISO tabISO, const int any)
 {
     vector<int> IDPs, IDPs_orden;
     vector<int> paises_orden;
 
     for (int i=0; i<NLOC; i++)
     {
-            IDPs.push_back(mDatos20XX[i][i].IDP[any-2018]);
+        IDPs.push_back(mDatos20XX[i][i].IDP[any-2018]);
     }
 
     sort(IDPs.begin(), IDPs.end());
@@ -377,17 +368,17 @@ void rankingIDP(mDatosRefug& mDatos20XX, const mISO tabISO, const int any)
         }
     }
 
-    cout<<"LISTA DE LOS 30 PAISES CON MAS DESPLAZADOS INTERNOS (IDP) EN "<<any<<endl<<endl;
-    cout<<"| "<<setw(5)<<left<<"RANK"<<"| "<<setw(45)<<left<<"PAIS "<<"| "<<setw(9)<<left<<"IDPs"<<"|"<<endl;
+    gotoxy(5, 2); cout << "LISTA DE LOS 30 PAISES CON MAS DESPLAZADOS INTERNOS (IDP) EN "<< any;
+    gotoxy(5, 4); cout<<"| "<<setw(5)<<left<<"RANK"<<"| "<<setw(45)<<left<<"PAIS "<<"| "<<setw(9)<<left<<"IDPs"<<"|"<<endl;
+    gotoxy(5, 5);
     for(int k = 0; k < 66; k++)
     {
         cout<<"-";
     }
-    cout<<endl;
 
     for (int k=0; k < 30; k++)
     {
-        cout<<"| "<<setw(5)<<left<<k+1<<"| "<<setw(45)<<left<<tabISO[paises_orden[k]].pais<<"| "<<setw(9)<<left<<IDPs_orden[k]<<"|"<<endl;
+        gotoxy(5, 6 + k); cout<<"| "<<setw(5)<<left<<k+1<<"| "<<setw(45)<<left<<tabISO[paises_orden[k]].pais<<"| "<<setw(9)<<left<<IDPs_orden[k]<<"|"<<endl;
     }
 }
 
@@ -698,7 +689,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
                 limpiadorLinea(24, 14, 1);
                 gotoxy(24, 14); aux2 = getche();
             }
-            ano = aux2 - 48;
+            ano = aux2 - 49;
             ano = ano + 2017;
             limpiadorLinea(5, 11, 30);
             int i = asignador(ISO_origen, tabISO);
@@ -804,6 +795,41 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
     }
 }
 
+void rankingPobl(mDatosPobl mDatosDemo, mISO tabISO, vector<string> vDemandado, int cat, int ano, int tipo){
+    vector<tListador> vLista;
+    vector<int> ranking;
+    string sexo[3] = {"TOTAL", "MASCULINA", "FEMENINA"};
+    for(int i = 0; i < NLOC; i++){
+        ranking.push_back(mDatosDemo[i].poblTotal[ano][cat]);
+    }
+    sort(ranking.begin(), ranking.end());
+    for(int i = ranking.size(); i > ranking.size() - 31; i--){
+        bool encontrado = false;
+        for(int j = 0; j < NLOC && !encontrado; j++){
+            if(ranking[i] == mDatosDemo[j].poblTotal[ano][cat]){
+                vDemandado.push_back(mDatosDemo[j].ISO);
+                encontrado = true;
+            }
+        }
+    }
+    listadorDatos(mDatosDemo, tabISO, vLista, vDemandado);
+    if(tipo == 1){
+        gotoxy(5, 2); cout << "LISTA DE LOS 30 PAISES CON MAS POBLACION EN " << sexo[cat] << " " << 1990 + 5*ano << " (en miles)";
+    }
+    if(tipo == 2){
+        gotoxy(5, 2); cout << "LISTA DE LOS 30 PAISES CON MAS MIGRACION EN " << sexo[cat] << " " << 1990 + 5*ano;
+    }
+    gotoxy(5, 4); cout<<"| "<<setw(5)<<left<<"RANK"<<"| "<<setw(59)<<left<<"PAIS "<<"| "<<setw(9)<<left<<"POBL."<<"|"<<endl;
+    gotoxy(5, 5); 
+    for(int k = 0; k < 80; k++){
+        cout<<"-";
+    }
+    for (int k = 0; k < 30; k++){
+        gotoxy(5, 6 + k); cout<<"| "<<setw(5)<<left<<k+1<<"| "<<setw(59)<<left<<vLista[k+1].pais<<"| "<<setw(9)<<left<<vLista[k+1].poblTotal[ano][cat]<<"|"<<endl;
+    }
+}
+
+
 //Imprimir datos poblaciones y migraciones
 void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     int aux = 0;
@@ -864,11 +890,11 @@ void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDa
     system("cls");
     gotoxy(5, 2);cout << "|1| - Consultar datos demograficos de un pais";
     gotoxy(5, 3);cout << "|2| - Consultar datos migratorios de un pais";
-    gotoxy(5, 4);cout << "|3| - Ranking de paises con mas desplazados internos (IDPs)";
+    gotoxy(5, 4);cout << "|3| - Consultar TOP 30 datos";
     gotoxy(5, 5);cout << "|4| - Calcular porcentajes de migracion respecto totales";
     gotoxy(5, 6);cout << "|5| - Calcular porcentajes de refugiados respecto migracion";
     gotoxy(5, 7);cout << "|6| - Buscar paises de destino mas frecuente en funcion del pais de origen del refugiado";
-    gotoxy(5, 8);cout << "|7| - Estadisticas de tendencias sobre migraciones";
+    gotoxy(5, 8);cout << "|7| - Estadisticas de tendencias sobre refugiados";
     gotoxy(5, 9);cout << "|8| - Ver la lista de codigos ISO de cada pais";
     gotoxy(5, 10);cout << "|9| - Modificar datos";
     gotoxy(5, 11);cout << "|0| - Salir";
@@ -954,8 +980,9 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
     gotoxy(5, 2); cout << "DATOS DEMOGRAFICOS";
     gotoxy(5, 5); cout << "|1| - Buscar por codigo ISO";
     gotoxy(5, 6); cout << "|2| - Listar todos los paises";
-    gotoxy(5, 7); cout << "(Si desea volver atras, pulse r)";
-    gotoxy(5, 9); cout << "Escoje una opcion:";
+    gotoxy(5, 7); cout << "(Tenga en cuenta que los datos son expresados en miles)";
+    gotoxy(5, 8); cout << "(Si desea volver atras, pulse r)";
+    gotoxy(5, 10); cout << "Escoje una opcion:";
     opcion = getche();
 
     switch(opcion){
@@ -973,7 +1000,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 48;
+                valor = aux - 49;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1025,7 +1052,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 48;
+                valor = aux - 49;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1086,7 +1113,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 48;
+                valor = aux - 49;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1139,7 +1166,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 48;
+                valor = aux - 49;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1180,12 +1207,164 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
 void menu3(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
     saltom3:
     char opcion; system("cls");
-    gotoxy(5, 2); cout << "RANKING DE PAISES CON MÁS DESPLAZADOS INTERNOS (IDPs)";
-    gotoxy(5, 5); cout << "|1| - Ranking de paises con mas refugiados internos (IDP's) segun el ano";
+    gotoxy(5, 2); cout << "RANKING DE PAISES CON MAS DESPLAZADOS INTERNOS (IDPs)";
+    gotoxy(5, 5); cout << "|1| - Ranking de paises con mas refugiados internos (IDP's)";
     gotoxy(5, 6); cout << "|2| - Ranking de paises con mas poblacion";
-    gotoxy(5, 6); cout << "|3| - Ranking de paises con mas migracion";
-    gotoxy(5, 7); cout << "(Si desea volver atras pulse r)";
-    gotoxy(5, 9); cout << "Escoja una opcion: ";
+    gotoxy(5, 7); cout << "|3| - Ranking de paises con mas migracion";
+    gotoxy(5, 8); cout << "(Si desea volver atras pulse r)";
+    gotoxy(5, 10); cout << "Escoja una opcion: ";
+
+    opcion = getche();
+    system("cls");
+
+    switch(opcion){
+        case '1':{
+            char aux;
+            int valor;
+            bool aux1 = false;
+            while (!aux1){
+                system("cls");
+                gotoxy(5, 2); cout << "Elija un ano: ";
+                gotoxy(5, 3); cout << "|1| - 2018";
+                gotoxy(5, 4); cout << "|2| - 2019";
+                gotoxy(5, 5); cout << "|3| - 2020";
+                gotoxy(5, 6); cout << "|4| - 2021";
+                gotoxy(5, 7); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 8); cout << "Escoja una opcion:";
+                aux = getche();
+                if (aux == 'r' || aux == 'R') goto saltom3;
+                valor = aux - 49;
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != '3' && aux != '4'){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux1 = true;
+                }
+            }
+            rankingIDP(mDatosRefugiados, tabISO, 2018 + valor);
+            gotoxy(5, 38); cout << "Para volver al menu principal: ";
+            system("pause");
+            menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            break;
+        }
+        case '2':{
+            char aux;
+            int valor, valor2;
+            bool aux1 = false;
+            bool aux2 = false;
+            while (!aux1){
+                system("cls");
+                gotoxy(5, 2); cout << "|1| - Consultar los datos totales";
+                gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
+                gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 7); cout << "Escoja una opcion:";
+                aux = getche();
+                if (aux == 'r' || aux == 'R') goto saltom3;
+                valor = aux - 49;
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != '3'){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux1 = true;
+                }
+            }
+            system("cls");
+            while (!aux2){
+                system("cls");
+                gotoxy(5, 2); cout << "Sobre que ano desea hacer el ranking?";
+                gotoxy(5, 3); cout << "|1| - 1990    |2| - 1995    |3| - 2000    |4| - 2005";
+                gotoxy(5, 4); cout << "|5| - 2010    |6| - 2015    |7| - 2020";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 7); cout << "Escoja una opcion:";
+                aux = getche();
+                if (aux == 'r' || aux == 'R') goto saltom3;
+                valor2 = aux - 49;
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != '3' && aux != '4' && aux != '5' && aux != '6' && aux != '7'){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux2 = true;
+                }
+            }
+            rankingPobl(mDatosDemo, tabISO, vDemandado, valor, valor2, 1);
+            gotoxy(5, 38); cout << "Para volver al menu principal: ";
+            system("pause");
+            menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            break;
+        }
+        case '3':{
+            char aux;
+            int valor, valor2;
+            bool aux1 = false;
+            bool aux2 = false;
+            while (!aux1){
+                system("cls");
+                gotoxy(5, 2); cout << "|1| - Consultar los datos totales";
+                gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
+                gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 7); cout << "Escoja una opcion:";
+                aux = getche();
+                if (aux == 'r' || aux == 'R') goto saltom3;
+                valor = aux - 49;
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != '3' && aux != '4' && aux != '5' && aux != '6' && aux != '7'){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux1 = true;
+                }
+            }
+            system("cls");
+            while (!aux2){
+                system("cls");
+                gotoxy(5, 2); cout << "Sobre que ano desea hacer el ranking?";
+                gotoxy(5, 3); cout << "|1| - 1990    |2| - 1995    |3| - 2000    |4| - 2005";
+                gotoxy(5, 4); cout << "|5| - 2010    |6| - 2015    |7| - 2020";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 7); cout << "Escoja una opcion:";
+                aux = getche();
+                if (aux == 'r' || aux == 'R') goto saltom3;
+                valor2 = aux - 49;
+                system("cls");
+                if (aux != '1' && aux != '2' && aux != '3'){
+                    gotoxy(5, 2); cout << "Introduzca una opcion valida";
+                    gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
+                }
+                else{
+                    aux2 = true;
+                }
+            }
+            rankingPobl(mDatosMigr, tabISO, vDemandado, valor, valor2, 2);
+            gotoxy(5, 38); cout << "Para volver al menu principal: ";
+            system("pause");
+            menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            break;
+        }
+        case 'r':{
+            menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            break;
+        }
+        case 'R':{
+            menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
+            break;
+        }
+        default:{
+            system("cls");
+            gotoxy(5, 2); cout << "Introduzca una opcion valida";
+            gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para retroceder" << endl;
+            goto saltom3;
+            break;
+        }
+    }
 }
 
 void menu4(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
