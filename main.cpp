@@ -504,7 +504,7 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
 void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector<string> vDemandado, mISO tabISO){
     int aux = 7;
     vector<tListador> vListaMigr;
-    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS";
+    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS EN 2020";
     gotoxy(5,4); cout<< "| " << setw(45) << left << "TERRITORIO" << "| " << setw(12) << "REFUGIADOS" << "| " << setw(12) << "MIGRANTES" << "| " << setw(7) << "%" << "| ";
     gotoxy(5,5); cout << "|";
     for(int k = 0; k < 83; k++)
