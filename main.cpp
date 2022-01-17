@@ -58,7 +58,6 @@ typedef tDatosISO mISO[NLOC]; //array ISO
 void leerDatosISO(mISO& tabISO);
 int asignador(string ISO, const mISO tabISO);
 void leerDatosRefug(mDatosRefug& mDatos20XX, const mISO tabISO);
-void insertar_ISO(int& i, int& j, const mISO tabISO);
 void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO);
 void imprimirISO(const mISO tabISO, int x);
 void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDemandado);
