@@ -280,6 +280,8 @@ bool comprovarISO(string ISO, mISO tabISO){
 //Ranking de paises con más refugiados originarios de un pais dado
 void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDemandado)
 {
+    int aux = 6;
+    int aux2 = 0;
     int j_max[NA];
 
     for(int m = 0; m < vDemandado.size(); m++)
@@ -291,27 +293,32 @@ void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDem
             j_max[k] = maximoRefug(mDatos20XX, i, k);
         }
 
-        cout<<endl<<endl<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais<<endl<<endl;
-        cout<<"| "<<setw(6)<<left<<"ANO"<<"| "<<setw(60)<<left<<"PAIS "<<"| "<<setw(11)<<left<<"REFUGIADOS"<<"|"<<endl;
-        for(int k = 0; k < 84; k++)
+        gotoxy(5,m*10 + 2); cout<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais;
+        gotoxy(5,m*10 + 4); cout<<"| "<<setw(6)<<left<<"ANO"<<"| "<<setw(60)<<left<<"PAIS "<<"| "<<setw(11)<<left<<"REFUGIADOS"<<"|";
+        gotoxy(5,m*10 + 5); cout << "|";
+        for(int k = 0; k < 82; k++)
         {
             cout<<"-";
         }
-        cout<<endl;
+        cout << "|";
         for (int k=0; k < NA; k++)
         {
             if (j_max[k] == -1)
             {
-                cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<"No hay ningun pais con refugiados de este origen"<<"| "<<setw(11)<<left<<"-------"<<"|"<<endl;
+                gotoxy(5,m*10 + k + 6); cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<"No hay ningun pais con refugiados de este origen"<<"| "<<setw(11)<<left<<"-------"<<"|";
             }
-            else cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|"<<endl;
+            else gotoxy(5,m*10 + k + 6);  cout<<"| "<<setw(6)<<left<<2018+k<<"| "<<setw(60)<<left<<tabISO[j_max[k]].pais<<"| "<<setw(11)<<left<<mDatos20XX[i][j_max[k]].refu[k]<<"|";
+            aux++;
         }
-        for(int k = 0; k < 84; k++)
+        gotoxy(5,m*10 +  aux); cout << "|";
+        for(int k = 0; k < 82; k++)
         {
             cout<<"-";
         }
-        cout<<endl;
+        cout << "|";
+        aux2++;
     }
+    gotoxy(5,10*aux2 + aux + 1);
 }
 
 //Encontrar número de refugiados máximo de un origen dado
@@ -466,36 +473,42 @@ void listadorDatos(mDatosPobl mDatos, mISO tabISO, vector<tListador>& vLista, ve
 }
 
 void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string> vDemandado, int sexo, mISO tabISO){
+    int aux = 7;
     vector<tListador> vListaDemo, vListaMigr;
-    cout<<"PORCENTAJES DE MIGRANTES RESPECTO POBLACION TOTAL EN FUNCION DEL PAIS Y DEL ANO"<<endl<<endl;
-    cout << "| " << setw(45) << left << "TERRITORIO" << "| " << setw(7) << 1990 << "| " << setw(7) << 1995  << "| " << setw(7) << 2000 << "| " << setw(7) << 2005 << "| " << setw(7) << 2010 << "| " << setw(7) << 2015 << "| " << setw(7) << 2020 <<"| "<< endl;
-    for(int k = 0; k < 111; k++)
+    gotoxy(5,2); cout<<"PORCENTAJES DE MIGRANTES RESPECTO POBLACION TOTAL EN FUNCION DEL PAIS Y DEL ANO";
+    gotoxy(5,4); cout << "| " << setw(45) << left << "TERRITORIO" << "| " << setw(7) << 1990 << "| " << setw(7) << 1995  << "| " << setw(7) << 2000 << "| " << setw(7) << 2005 << "| " << setw(7) << 2010 << "| " << setw(7) << 2015 << "| " << setw(7) << 2020 <<"| ";
+    gotoxy(5,5); cout << "|";
+    for(int k = 0; k < 109; k++)
     {
         cout<<"-";
     }
-    cout<<endl;
+    cout << "|";
     listadorDatos(mDatosDemo, tabISO, vListaDemo, vDemandado);
     listadorDatos(mDatosMigr, tabISO, vListaMigr, vDemandado);
     for(int i = 0; i < vListaDemo.size(); i++){
-        cout << "| " << setw(45) << left << vListaDemo[i].pais;
+        gotoxy(5,6 + i); cout << "| " << setw(45) << left << vListaDemo[i].pais;
         for(int j = 0; j < NANOS; j++){
             float aux =((float(vListaMigr[i].poblTotal[j][sexo])) / (float(vListaDemo[i].poblTotal[j][sexo]) * 1000)) * 100;
             aux = (int)(aux * 100 + .5);
             cout << "| " << setw(6) <<left<< (float)aux / 100 << "%"; 
         }
-        cout <<"| "<< endl;
+        cout <<"| ";
+        aux++;
     }
+    gotoxy(5,aux);
 }
 
 void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector<string> vDemandado, mISO tabISO){
+    int aux = 7;
     vector<tListador> vListaMigr;
-    cout<<"PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS"<<endl<<endl;
-    cout<< "| " << setw(45) << left << "TERRITORIO" << "| " << setw(12) << "REFUGIADOS" << "| " << setw(12) << "MIGRANTES" << "| " << setw(7) << "%" << "| " << endl;
-    for(int k = 0; k < 85; k++)
+    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS";
+    gotoxy(5,4); cout<< "| " << setw(45) << left << "TERRITORIO" << "| " << setw(12) << "REFUGIADOS" << "| " << setw(12) << "MIGRANTES" << "| " << setw(7) << "%" << "| ";
+    gotoxy(5,5); cout << "|";
+    for(int k = 0; k < 83; k++)
     {
         cout<<"-";
     }
-    cout << endl;
+    cout << "|";
     for (int m = 0; m < vDemandado.size(); m++)
     {
         int j = asignador(vDemandado[m], tabISO);
@@ -510,8 +523,10 @@ void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector
         float porcent = ((float(suma_refug)) / (float(vListaMigr[m].poblTotal[6][0]))) * 100;
         porcent = (int)(porcent * 100 + .5);
 
-        cout<< "| " << setw(45) << left << tabISO[j].pais << "| " << setw(12) << suma_refug << "| " << setw(12) << vListaMigr[m].poblTotal[6][0] << "| " << setw(5) << porcent / 100 << " %" <<  "| " << endl; 
+        gotoxy(5,6 + m); cout<< "| " << setw(45) << left << tabISO[j].pais << "| " << setw(12) << suma_refug << "| " << setw(12) << vListaMigr[m].poblTotal[6][0] << "| " << setw(5) << porcent / 100 << " %" <<  "| " ;
+        aux++;
     }
+    gotoxy(5, aux);
 }
 
 void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, int archivo, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){ //1 -> Demografico   2 -> Migragracion   3 -> Refugiados
@@ -522,64 +537,75 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
         bool encontrado = false;
         system("cls");
         imprimirISO(tabISO, 100);
-        gotoxy(5, 2); cout << "Introduzca el ISO del pais a modificar:";
-        gotoxy(5, 3); cout << "- ";
+        if(archivo == 1){
+            gotoxy(5,2); cout<<"MODIFICAR DATOS DE POBLACION";
+        }
+        else if(archivo == 2){
+            gotoxy(5,2); cout<<"MODIFICAR DATOS DE MIGRACION";
+        }
+
+        gotoxy(5, 5); cout << "Introduzca el ISO del pais a modificar:";
+        gotoxy(5, 6); cout << "- ";
         cin >> ISOdemandado;
         while (!comprovarISO(ISOdemandado ,tabISO))
         {
             gotoxy(5, 4);cout << "(Introduzca un codigo ISO valido)";
-            gotoxy(5, 3);
-            limpiadorLinea(7, 3, ISOdemandado.size());
-            gotoxy(5, 3);cout << "- ";
+            gotoxy(5, 6);
+            limpiadorLinea(7, 6, ISOdemandado.size() + 1);
+            gotoxy(8, 6);
             cin >> ISOdemandado;
         }
         limpiadorLinea(5, 4, 33);
-        gotoxy(5, 4); cout << "Categoria del dato a modificar: ";
-        gotoxy(5, 5); cout << "|1| - Total    |2| - Masculino    |3| - Femenino";
-        gotoxy(5, 6); cout << "Escoja una opcion: ";
-        aux = getche();
-        while(aux != '1' && aux != '2' && aux != '3'){
-            gotoxy(5, 7);cout << "(Introduzca una opcion valida)";
-            limpiadorLinea(24, 6, 1);
-            gotoxy(24, 6); aux = getche();
-        }
-        limpiadorLinea(5, 7, 30);
-        categoria = aux - 49;
-        if(aux == '1'){
-            gotoxy(5, 7); cout << "Categoria escogida: Total";
-        } 
-        if(aux == '2'){ 
-             gotoxy(5, 7 ); cout << "Categoria escogida: Masculino";
-        } 
-        if(aux == '3'){ 
-            gotoxy(5, 7); cout << "Categoria escogida: Femenino";
-        }
-        gotoxy(5, 8); cout << "Ano a modificar: ";
-        gotoxy(5, 9); cout << "|1| - 1990    |2| - 1995    |3| - 2000    |4| - 2005";
-        gotoxy(5, 10); cout << "|5| - 2010    |6| - 2015    |7| - 2020";
+        gotoxy(5, 9); cout << "Categoria del dato a modificar: ";
+        gotoxy(5, 10); cout << "|1| - Total    |2| - Masculino    |3| - Femenino";
         gotoxy(5, 11); cout << "Escoja una opcion: ";
         aux = getche();
-        while(aux < '1' || aux > '7'){
-            gotoxy(5, 12);cout << "Introduzca una opcion valida: ";
+        while(aux != '1' && aux != '2' && aux != '3'){
+            gotoxy(5, 8);cout << "(Introduzca una opcion valida)";
             limpiadorLinea(24, 11, 1);
             gotoxy(24, 11); aux = getche();
         }
-        limpiadorLinea(5, 12, 30);
+        limpiadorLinea(5, 8, 30);
+        categoria = aux - 49;
+        gotoxy(5, 14); cout << "Ano a modificar: ";
+        gotoxy(5, 15); cout << "|1| - 1990    |2| - 1995    |3| - 2000    |4| - 2005";
+        gotoxy(5, 16); cout << "|5| - 2010    |6| - 2015    |7| - 2020";
+        gotoxy(5, 17); cout << "Escoja una opcion: ";
+        aux = getche();
+        while(aux < '1' || aux > '7'){
+            gotoxy(5, 13);cout << "(Introduzca una opcion valida)";
+            limpiadorLinea(24, 17, 1);
+            gotoxy(24, 17); aux = getche();
+        }
+        limpiadorLinea(5, 13, 30);
         ano = aux - 49;
-        cout << "Ano escogido: " << 1990 + 5*ano;
-        gotoxy(5, 14); cout << "Introduzca el nuevo valor: ";
-        gotoxy(5, 15); cout <<  "- ";
+        gotoxy(5, 20); cout << "Inserte el nuevo valor (en forma de entero): ";
+        gotoxy(5, 21); cout <<  "- ";
         cin >> valor;
         system("cls");
-        gotoxy(5, 2); cout << "Esta seguro que desea modificar el valor?";
-        gotoxy(5, 3); cout << "|1| - SI    |2| - NO";
+        gotoxy(5, 2); cout << "DATOS A MODIFICAR: ";
+        gotoxy(5, 3); cout << "- Pais: " << ISOdemandado;
+        if(categoria == 0){
+            gotoxy(5, 4); cout << "- Categoria: "<< "Total";
+        }
+        else if(categoria == 1){
+            gotoxy(5, 4); cout << "- Categoria: "<< "Masculino";
+        }
+        else if(categoria == 2){
+            gotoxy(5, 4); cout << "- Categoria: "<< "Femenino";
+        }
+        gotoxy(5, 5); cout << "- Ano: "<< 1990 + ano*5;
+        gotoxy(5, 6); cout << "- Valor a actualizar: " << valor;
+
+        gotoxy(5, 9); cout << "Esta seguro que desea modificar el valor?";
+        gotoxy(5, 10); cout << "|1| - SI    |2| - NO";
         aux = getche();
-        limpiadorLinea(25, 3, 1);
+        limpiadorLinea(25, 10, 1);
         while(aux != '1' && aux != '2'){
-            gotoxy(5, 5);cout << "(Introduzca una opcion valida)";
-            gotoxy(25, 3);
+            gotoxy(5, 8);cout << "(Introduzca una opcion valida)";
+            gotoxy(25, 10);
             aux = getche();
-            limpiadorLinea(25, 3, 1);
+            limpiadorLinea(25, 10, 1);
         }
         if(aux == '1'){
             if(archivo == 1){
@@ -639,7 +665,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             {
                 gotoxy(5, 4);cout << "(Introduzca un codigo ISO valido)";
                 gotoxy(5, 6);
-                limpiadorLinea(7, 6, ISO_origen.size());
+                limpiadorLinea(7, 6, ISO_origen.size() + 1);
                 gotoxy(5, 6);cout << "- ";
                 cin >> ISO_origen;
             }
@@ -651,7 +677,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             {   
                 gotoxy(5, 8);cout << "(Introduzca un codigo ISO valido)";
                 gotoxy(5, 10);
-                limpiadorLinea(7, 10, ISO_destinacion.size());
+                limpiadorLinea(7, 10, ISO_destinacion.size() + 1);
                 gotoxy(5, 10);cout << "- ";
                 cin >> ISO_origen;
             }
@@ -676,11 +702,11 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             cin>> valor;
             system("cls");
             gotoxy(5, 2); cout << "DATOS A MODIFICAR: ";
-            gotoxy(5, 3); cout << "-Tipo de datos: Refugiados";
-            gotoxy(5, 4); cout << "-Pais origen: " << tabISO[i].pais;
-            gotoxy(5, 5); cout << "-Pais destino: "<< tabISO[j].pais;
-            gotoxy(5, 6); cout << "-Ano: "<< ano;
-            gotoxy(5, 7); cout << "-Valor a actualizar: " << valor;
+            gotoxy(5, 3); cout << "- Tipo de datos: Refugiados";
+            gotoxy(5, 4); cout << "- Pais origen: " << tabISO[i].pais;
+            gotoxy(5, 5); cout << "- Pais destino: "<< tabISO[j].pais;
+            gotoxy(5, 6); cout << "- Ano: "<< ano;
+            gotoxy(5, 7); cout << "- Valor a actualizar: " << valor;
 
             gotoxy(5,10); cout << "Esta seguro que desea modificar el valor?";
             gotoxy(5, 11); cout << "|1| - SI    |2| - NO";
@@ -741,10 +767,10 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             cin>> valor;
             system("cls");
             gotoxy(5, 2); cout << "DATOS A MODIFICAR: ";
-            gotoxy(5, 3); cout << "-Tipo de datos: Desplazados Internos (IDP)";
-            gotoxy(5, 4); cout << "-Pais: " << tabISO[i].pais;
-            gotoxy(5, 5); cout << "-Ano: "<< ano;
-            gotoxy(5, 6); cout << "-Valor a actualizar: " << valor;
+            gotoxy(5, 3); cout << "- Tipo de datos: Desplazados Internos (IDP)";
+            gotoxy(5, 4); cout << "- Pais: " << tabISO[i].pais;
+            gotoxy(5, 5); cout << "- Ano: "<< ano;
+            gotoxy(5, 6); cout << "- Valor a actualizar: " << valor;
 
             gotoxy(5,10); cout << "Esta seguro que desea modificar el valor?";
             gotoxy(5, 11); cout << "|1| - SI    |2| - NO";
@@ -774,8 +800,10 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
 
 //Imprimir datos poblaciones y migraciones
 void imprimirDatosPobl(vector<tListador>& vLista, int intro){
-    cout << "| " << setw(60) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020 << endl;
-    for(int i = 0; i < 179; i++){
+    int aux = 0;
+    gotoxy(5,2); cout << "| " << setw(60) << left << "TERRITORIO" << "| " << setw(10) << "CODIGO" << "| " << setw(12) << 1990 << "| " << setw(12) << 1995  << "| " << setw(12) << 2000 << "| " << setw(12) << 2005 << "| " << setw(12) << 2010 << "| " << setw(12) << 2015 << "| " << setw(12) << 2020;
+    gotoxy(5,3);
+    for(int i = 0; i < 171; i++){
         if(i == 0){
             cout << "| ";
         }
@@ -785,7 +813,7 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     }
     cout << endl;
     for(int i = 0; i < vLista.size(); i++){
-        cout << "| " << setw(60) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO; 
+        gotoxy(5,4 + i); cout << "| " << setw(60) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO; 
         for(int j = 0; j < NANOS; j++){
             if(intro == 1){
                 cout << "| " << setw(12) << vLista[i].poblTotal[j][0];
@@ -797,8 +825,9 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
                 cout << "| " << setw(12) << vLista[i].poblTotal[j][2];
             }
         }
-        cout << endl;
+        aux = i;
     }
+    gotoxy(5, aux + 6);
 }
 
 //SUBPROGRAMAS ROBERTO-------------------------------------------------------------------------------------------
@@ -837,7 +866,7 @@ void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDa
     gotoxy(5, 9);cout << "|8| - Ver la lista de codigos ISO de cada pais";
     gotoxy(5, 10);cout << "|9| - Modificar datos";
     gotoxy(5, 11);cout << "|0| - Salir";
-    gotoxy(5, 13);cout <<"Elija una opcion";
+    gotoxy(5, 13);cout <<"Elija una opcion: ";
     char opcion;
     opcion = getche();
     system("cls");
