@@ -211,45 +211,51 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
 {
     int i,j, aux;
     bool IDP = false;
-
     i = asignador(vDemandado[0],tabISO);
+    j = asignador(vDemandado[1],tabISO);
+    
+    if (vDemandado.size() == 2 && i == j) IDP = true;
 
-    cout<<endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
-    cout<<"| "<<setw(60)<<left<<"DESTINO"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
-    for(int k = 0; k < 111; k++)
+    if (!IDP)
     {
-        cout<<"-";
-    }
-    cout<<endl;
-
-    for(int m=1; m<vDemandado.size(); m++)
-    {
-        j = asignador(vDemandado[m],tabISO);
-
-        if (i==j)
+        cout<<endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
+        cout<<"| "<<setw(60)<<left<<"DESTINO"<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
+        for(int k = 0; k < 111; k++)
         {
-            aux = j;
-            IDP = true;
+            cout<<"-";
         }
+        cout<<endl;
 
-        else
+        for(int m=1; m<vDemandado.size(); m++)
         {
-            cout<<"| "<<setw(60)<<left<<tabISO[j].pais;
-            for (int k=0; k < NA; k++)
+            j = asignador(vDemandado[m],tabISO);
+
+            if (i==j)
             {
-                cout<<"| "<<setw(10)<<left<<mDatos20XX[i][j].refu[k];
+                aux = j;
+                IDP = true;
             }
-            cout<<"| "<<endl;
+
+            else
+            {
+                cout<<"| "<<setw(60)<<left<<tabISO[j].pais;
+                for (int k=0; k < NA; k++)
+                {
+                    cout<<"| "<<setw(10)<<left<<mDatos20XX[i][j].refu[k];
+                }
+                cout<<"| "<<endl;
+            }
         }
-    }
 
-    for(int k = 0; k < 111; k++)
-    {
-        cout<<"-";
+        for(int k = 0; k < 111; k++)
+        {
+            cout<<"-";
+        }
+        cout<<endl;
     }
-    cout<<endl;
+    
 
-    if (IDP)
+    else if (IDP)
         {
             cout<<endl<<endl<<" NUMERO DE DESPLAZADOS INTERNOS EN "<<tabISO[i].pais<<" :"<<endl<<endl;
             cout<<"| "<<setw(10)<<left<<"2018"<<"| "<<setw(10)<<left<<"2019"<<"| "<<setw(10)<<left<<"2020"<<"| "<<setw(10)<<left<<"2021"<<"|"<<endl;
