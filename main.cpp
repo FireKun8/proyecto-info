@@ -109,7 +109,7 @@ int main()
     gotoxy(10, 3); cout << "************************************************";
     gotoxy(10, 4);cout << "*DATOS ONU DE POBLACION, MIGRACION Y REFUGIADOS*";
     gotoxy(10, 5);cout << "************************************************" << endl << endl << endl;
-    system("Pause");
+    gotoxy (10, 8); system("Pause");
     system("cls");
     menu_principal(mDatosPobl, mDatosMigr, mDatosRefug20XX, tabISO, vLista, vDemandado);
 
