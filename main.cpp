@@ -1237,7 +1237,7 @@ void menu3(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 if (aux == 'r' || aux == 'R') goto saltom3;
                 valor = aux - 49;
                 system("cls");
-                if (aux != '1' && aux != '2' && aux != '3' && aux != '4'){
+                if (aux <'1' || aux > '7'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
                     gotoxy(5, 4); system("pause"); cout << "Presione una tecla.. para continuar" << endl;
                 }
