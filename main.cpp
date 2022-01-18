@@ -12,9 +12,9 @@ using namespace std;
 
 //CONSTANTES------------------------------------------------------------------------------------------------
 const int NLOC = 250; //Numero paises
-const int NANOS = 7; //Numero años pobl. y migr. (aleix)
-const int NCAT = 3; //Numero categorias pobl. y migr. (aleix)
-const int NA = 4; //Numero años refug. (andreu)
+const int NANOS = 7; //Numero años pobl. y migr.
+const int NCAT = 3; //Numero categorias pobl. y migr.
+const int NA = 4; //Numero años refug.
 
 //DEF. PARA STRUCTS
 typedef int mPobl[NANOS][NCAT]; //
@@ -50,8 +50,8 @@ struct tListador
 };
 
 //DEF.
-typedef tDatosRefug mDatosRefug[NLOC][NLOC]; //matriz refug. (andreu)
-typedef tDatosPobl mDatosPobl[NLOC]; //array poblacion (aleix)
+typedef tDatosRefug mDatosRefug[NLOC][NLOC]; //matriz refug.
+typedef tDatosPobl mDatosPobl[NLOC]; //array poblacion
 typedef tDatosISO mISO[NLOC]; //array ISO
 
 //DEF. SUBRPOGRAMAS------------------------------------------------------------------------------------------
@@ -135,7 +135,6 @@ void leerDatosISO(mISO& tabISO)
     }
 }
 
-//SUBPROGRAMAS ANDREU------------------------------------------------------------------------------------------------
 
 //Asignador ISO
 int asignador(string ISO, const mISO tabISO)
@@ -407,8 +406,6 @@ void imprimirISO(const mISO tabISO, int x)
     cout<<endl;
 }
 
-
-//SUBPROGRAMAS ALEIX-------------------------------------------------------------------------------------------
 
 //Leer datos poblaciones y migraciones
 void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero){
@@ -859,8 +856,6 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     }
     gotoxy(5, aux + 6);
 }
-
-//SUBPROGRAMAS ROBERTO-------------------------------------------------------------------------------------------
 
 void gotoxy(int x, int y){
     HANDLE consola; COORD posicion;
