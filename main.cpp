@@ -995,7 +995,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 2); cout << "|1| - Consultar los datos totales";
                 gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
                 gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
-                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder) ";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
                 valor = aux - 48;
