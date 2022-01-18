@@ -998,7 +998,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder) ";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1050,7 +1050,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1111,7 +1111,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1164,7 +1164,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
