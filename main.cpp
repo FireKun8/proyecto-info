@@ -94,23 +94,23 @@ int main()
     mISO tabISO;
     vector<tListador> vLista;
     vector<string> vDemandado;
-    vector<int> vDemandado1 = {1, 7, 9, 10, 14};
-    leerDatosISO(tabISO);
 
+    leerDatosISO(tabISO);
     leerDatosPobl(mDatosMigr, tabISO, "migraciones.csv");
     leerDatosPobl(mDatosPobl, tabISO, "poblacion.csv");
     leerDatosRefug(mDatosRefug20XX, tabISO);
 
     //VARIABLES DEL MENU----------------------------
-
+    
     //SWITCH DEL MENU PRINCIPAL--------------------------------------------------------------------
+    system("cls");
+    gotoxy(10, 3); cout << "************************************************";
+    gotoxy(10, 4);cout << "*DATOS ONU DE POBLACION, MIGRACION Y REFUGIADOS*";
+    gotoxy(10, 5);cout << "************************************************" << endl << endl << endl;
+    gotoxy (10, 8); system("Pause");
+    system("cls");
+    menu_principal(mDatosPobl, mDatosMigr, mDatosRefug20XX, tabISO, vLista, vDemandado);
 
-
-    //imprimirRefug(mDatosRefug20XX, tabISO);
-
-
-    //listadorDatos(mDatosPobl, tabISO, vLista, vDemandado);
-    //imprimirDatosPobl(vLista, 1);
 }
 
 //SUBPROGRAMAS GLOBALES------------------------------------------------------------------------------------------------
@@ -211,13 +211,13 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
     bool IDP = false;
     i = asignador(vDemandado[0],tabISO);
     j = asignador(vDemandado[1],tabISO);
-
-    if (vDemandado.size() == 2 && i == j)
+    
+    if (vDemandado.size() == 2 && i == j) 
     {
         IDP = true;
         aux = i;
     }
-
+    
     if (!IDP)
     {
         cout << endl<<endl<<" NUMERO DE REFUGIADOS Y SOLICITANTES DE ASILO ORIGINARIOS DE "<<tabISO[i].pais<<" EN FUNCION DEL DESTINO: "<<endl<<endl;
@@ -231,7 +231,7 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
         for(int m=1; m<vDemandado.size(); m++)
         {
             j = asignador(vDemandado[m],tabISO);
-
+             
             if (i==j)
             {
                 aux = j;
@@ -248,14 +248,14 @@ void imprimirRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDe
                 cout<<"| "<<endl;
             }
         }
-
+        
         for(int k = 0; k < 111; k++)
         {
             cout << "-";
         }
         cout << endl;
     }
-
+    
 
     if (IDP)
     {
@@ -282,7 +282,7 @@ bool comprovarISO(string ISO, mISO tabISO){
             encontrado = true;
         }
     }
-    return encontrado;
+    return encontrado;  
 }
 
 //Ranking de paises con más refugiados originarios de un pais dado
@@ -308,7 +308,7 @@ void rankingRefug(mDatosRefug mDatos20XX, const mISO tabISO, vector<string> vDem
                 }
             }
             if (aux == 0) j_max[k] = -1;
-
+            
         }
 
         gotoxy(5,m*10 + 2); cout<<"RANKING DE PASIES CON MAS REFUGIADOS PROVENIENTES DE "<<tabISO[i].pais;
@@ -418,7 +418,7 @@ void leerDatosPobl(mDatosPobl& mDatos, mISO tabISO, string fichero){
     string aux;
     int numDatos[3][7];
     int cont = 0;
-
+    
     if(datos.is_open()){
         while(getline(datos, linea)){
             stringstream ss(linea);
@@ -485,7 +485,7 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
         for(int j = 0; j < NANOS; j++){
             float aux =((float(vListaMigr[i].poblTotal[j][sexo])) / (float(vListaDemo[i].poblTotal[j][sexo]) * 1000)) * 100;
             aux = (int)(aux * 100 + .5);
-            cout << "| " << setw(6) <<left<< (float)aux / 100 << "%";
+            cout << "| " << setw(6) <<left<< (float)aux / 100 << "%"; 
         }
         cout <<"| ";
         aux++;
@@ -496,7 +496,7 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
 void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector<string> vDemandado, mISO tabISO){
     int aux = 7;
     vector<tListador> vListaMigr;
-    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS";
+    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS EN 2020";
     gotoxy(5,4); cout<< "| " << setw(45) << left << "TERRITORIO" << "| " << setw(12) << "REFUGIADOS" << "| " << setw(12) << "MIGRANTES" << "| " << setw(7) << "%" << "| ";
     gotoxy(5,5); cout << "|";
     for(int k = 0; k < 83; k++)
@@ -514,7 +514,7 @@ void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector
         {
             suma_refug += mDatosRefugiados[i][j].refu[2];
         }
-
+        
         float porcent = ((float(suma_refug)) / (float(vListaMigr[m].poblTotal[6][0]))) * 100;
         porcent = (int)(porcent * 100 + .5);
 
@@ -617,7 +617,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
                         encontrado = true;
                         mDatosMigr[i].poblTotal[ano][categoria] = valor;
                     }
-                }
+                }  
             }
             system("cls");
             gotoxy(5,2); cout << "Datos actualizados correctamente." << endl;
@@ -625,12 +625,12 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             system("pause");
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
         }
-
+        
         else if(aux == '2'){
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
         }
     }
-
+    
     else if(archivo == 3){
         char aux1, aux2;
         string ISO_origen, ISO_destinacion;
@@ -648,7 +648,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
         }
         limpiadorLinea(5, 1, 30);
         system("cls");
-
+        
         if (aux1 == '1')
         {
             gotoxy(5,2); cout<<"MODIFICAR DATOS DE REFUGIADOS";
@@ -669,7 +669,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             gotoxy(5, 10); cout << "- ";
             cin >> ISO_destinacion;
             while (!comprovarISO(ISO_destinacion,tabISO))
-            {
+            {   
                 gotoxy(5, 8);cout << "(Introduzca un codigo ISO valido)";
                 gotoxy(5, 10);
                 limpiadorLinea(7, 10, ISO_destinacion.size() + 1);
@@ -724,7 +724,7 @@ void updateDatos(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDato
             else if(aux2 == '2'){
                 menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             }
-
+            
         }
 
         if (aux1 == '2')
@@ -818,12 +818,12 @@ void rankingPobl(mDatosPobl mDatosDemo, mISO tabISO, vector<string> vDemandado, 
         gotoxy(5, 2); cout << "LISTA DE LOS 30 PAISES CON MAS MIGRACION EN " << sexo[cat] << " " << 1990 + 5*ano;
     }
     gotoxy(5, 4); cout<<"| "<<setw(5)<<left<<"RANK"<<"| "<<setw(59)<<left<<"PAIS "<<"| "<<setw(9)<<left<<"POBL."<<"|"<<endl;
-    gotoxy(5, 5);
+    gotoxy(5, 5); 
     for(int k = 0; k < 80; k++){
         cout<<"-";
     }
-    for (int k = 0; k < 30; k++){
-        gotoxy(5, 6 + k); cout<<"| "<<setw(5)<<left<<k+1<<"| "<<setw(59)<<left<<vLista[k+1].pais<<"| "<<setw(9)<<left<<vLista[k+1].poblTotal[ano][cat]<<"|"<<endl;
+    for (int k = 1; k < 31; k++){
+        gotoxy(5, 5 + k); cout<<"| "<<setw(5)<<left<<k<<"| "<<setw(59)<<left<<vLista[k].pais<<"| "<<setw(9)<<left<<vLista[k].poblTotal[ano][cat]<<"|"<<endl;
     }
 }
 
@@ -843,7 +843,7 @@ void imprimirDatosPobl(vector<tListador>& vLista, int intro){
     }
     cout << endl;
     for(int i = 0; i < vLista.size(); i++){
-        gotoxy(5,4 + i); cout << "| " << setw(60) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO;
+        gotoxy(5,4 + i); cout << "| " << setw(60) << vLista[i].pais << "| " << setw(10) << vLista[i].ISO; 
         for(int j = 0; j < NANOS; j++){
             if(intro == 1){
                 cout << "| " << setw(12) << vLista[i].poblTotal[j][0];
@@ -880,11 +880,11 @@ void limpiadorLinea(int posX, int posY, int longitud){
 
 void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
     saltomenup:
-
+    
     //Limpieza de vectores
     vLista.clear();
     vDemandado.clear();
-
+    
     system("cls");
     gotoxy(5, 2);cout << "|1| - Consultar datos demograficos de un pais";
     gotoxy(5, 3);cout << "|2| - Consultar datos migratorios de un pais";
@@ -900,23 +900,23 @@ void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDa
     char opcion;
     opcion = getche();
     system("cls");
-
+    
     switch (opcion){
 
         case '1':{
-
+            
             menu1(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
-
+            
             break;
         }
         case '2':{
-
+            
             menu2(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 
             break;
         }
         case '3':{
-
+            
             menu3(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 
             break;
@@ -924,44 +924,44 @@ void menu_principal(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDa
         case '4':{
 
             menu4(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
-
+            
             break;
         }
         case '5':{
 
             menu5(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
-
+            
             break;
         }
         case '6':
 
             menu6(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
-
+            
             break;
 
         case '7':
-
+            
             menu7(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 
             break;
         case '8':{
             imprimirISO(tabISO, 5);
             cout << "Para volver al menu principal: ";
-            system("pause");
+            system("pause"); 
             goto saltomenup;
             break;
         }
         case '9':{
-
+            
             menu9(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
-
+            
             break;
         }
 
         case '0':
             gotoxy(5, 2); cout << "Gracias por usar este programa" << endl;
             break;
-
+    
         default:
             system("cls");
             gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -984,7 +984,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
     opcion = getche();
 
     switch(opcion){
-
+        
 
         case '1':{
             char aux;
@@ -995,7 +995,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 2); cout << "|1| - Consultar los datos totales";
                 gotoxy(5, 3); cout << "|2| - Consultar los datos sobre los hombres";
                 gotoxy(5, 4); cout << "|3| - Consultar los datos sobre las mujeres";
-                gotoxy(5, 5); cout << "(Pulse r para retroceder) ";
+                gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
                 valor = aux - 48;
@@ -1026,7 +1026,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                     cin >> ISOdemandado;
                 }
                 limpiadorLinea(5, 4, 33);
-                vDemandado.push_back(ISOdemandado);
+                vDemandado.push_back(ISOdemandado);              
                 index++;
             }
             vDemandado.pop_back();
@@ -1034,7 +1034,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
             listadorDatos(mDatosDemo, tabISO, vLista, vDemandado);
             imprimirDatosPobl(vLista, valor);
             cout << "Para volver al menu principal: ";
-            system("pause");
+            system("pause"); 
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
         }
@@ -1071,7 +1071,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
         }
-
+        
         case 'r': {
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
@@ -1139,7 +1139,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                     cin >> ISOdemandado;
                 }
                 limpiadorLinea(5, 4, 33);
-                vDemandado.push_back(ISOdemandado);
+                vDemandado.push_back(ISOdemandado);              
                 index++;
             }
             vDemandado.pop_back();
@@ -1147,7 +1147,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
             listadorDatos(mDatosMigr, tabISO, vLista, vDemandado);
             imprimirDatosPobl(vLista, valor);
             cout << "Para volver al menu principal: ";
-            system("pause");
+            system("pause"); 
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
         }
@@ -1185,7 +1185,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
         }
-
+        
         case 'r': {
             menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
             break;
@@ -1205,7 +1205,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
 void menu3(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
     saltom3:
     char opcion; system("cls");
-    gotoxy(5, 2); cout << "RANKING DE PAISES CON MAS DESPLAZADOS INTERNOS (IDPs)";
+    gotoxy(5, 2); cout << "RANKINGS DE REFUGIADOS INTERNOS, POBLACION Y MIGRACION";
     gotoxy(5, 5); cout << "|1| - Ranking de paises con mas refugiados internos (IDP's)";
     gotoxy(5, 6); cout << "|2| - Ranking de paises con mas poblacion";
     gotoxy(5, 7); cout << "|3| - Ranking de paises con mas migracion";
@@ -1400,14 +1400,14 @@ void menu4(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 cin >> ISOdemandado;
             }
             limpiadorLinea(5, 4, 33);
-            vDemandado.push_back(ISOdemandado);
+            vDemandado.push_back(ISOdemandado);              
             index++;
         }
         vDemandado.pop_back();
         system("cls");
         percMigrVSPobl(mDatosDemo, mDatosMigr, vDemandado, valor, tabISO);
         cout << "Para volver al menu principal: ";
-        system("pause");
+        system("pause"); 
         menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
     }
     else{
@@ -1419,7 +1419,7 @@ void menu4(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
 }
 
 void menu5(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
-
+    
     string ISOdemandado;
     system("cls");
     imprimirISO(tabISO, 100);
@@ -1439,19 +1439,19 @@ void menu5(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
             cin >> ISOdemandado;
         }
         limpiadorLinea(5, 4, 33);
-        vDemandado.push_back(ISOdemandado);
+        vDemandado.push_back(ISOdemandado);              
         index++;
     }
     vDemandado.pop_back();
-    system("cls");
+    system("cls");    
     percRefugVSMigr(mDatosMigr, mDatosRefugiados, vDemandado, tabISO);
     cout << "Para volver al menu principal: ";
-    system("pause");
+    system("pause"); 
     menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 }
 
 void menu6(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
-
+    
     string ISOdemandado;
     system("cls");
     imprimirISO(tabISO, 100);
@@ -1471,17 +1471,17 @@ void menu6(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
             cin >> ISOdemandado;
         }
         limpiadorLinea(5, 4, 33);
-        vDemandado.push_back(ISOdemandado);
+        vDemandado.push_back(ISOdemandado);              
         index++;
     }
     vDemandado.pop_back();
-    system("cls");
+    system("cls");    
     rankingRefug(mDatosRefugiados, tabISO, vDemandado);
     cout << "Para volver al menu principal: ";
-    system("pause");
+    system("pause"); 
     menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 }
-
+ 
 
 
 void menu7(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
@@ -1493,7 +1493,7 @@ void menu7(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
     gotoxy(5, 3); cout << "Consultar datos de refugiados segun pais de origen y de destino";
     gotoxy(5, 7); cout<< "Introduce el codigo ISO, en mayusculas, del pais de origen: ";
     gotoxy(5, 8); cout << "- ";
-    cin >> ISOdemandado;
+    cin >> ISOdemandado; 
     int index = 8;
 
     while (!comprovarISO(ISOdemandado ,tabISO))
@@ -1520,14 +1520,14 @@ void menu7(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
             cin >> ISOdemandado;
         }
         limpiadorLinea(5, 9, 33);
-        vDemandado.push_back(ISOdemandado);
+        vDemandado.push_back(ISOdemandado);              
         index++;
     }
     vDemandado.pop_back();
-    system("cls");
+    system("cls");    
     imprimirRefug(mDatosRefugiados, tabISO, vDemandado);
     cout << "Para volver al menu principal: ";
-    system("pause");
+    system("pause"); 
     menu_principal(mDatosDemo, mDatosMigr, mDatosRefugiados, tabISO, vLista, vDemandado);
 }
 
