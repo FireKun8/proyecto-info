@@ -10,8 +10,6 @@ Andreu:
 
 ### COSES A FER
 
-- Menu 3 añadir funcion
-- Menu 2, que la r i R vagin cap endarrere
-- Afegir credits i acomiadament
+- Quitar tabISO de llerDatosPobl.
 
 ### COSES QUE FALLEN
