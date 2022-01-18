@@ -503,7 +503,7 @@ void percMigrVSPobl(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, vector<string>
 void percRefugVSMigr(mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, vector<string> vDemandado, mISO tabISO){
     int aux = 7;
     vector<tListador> vListaMigr;
-    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS";
+    gotoxy(5,2); cout << "PORCENTAJES DE REFUGIADOS RESPECTO MIGRACION TOTAL EN FUNCION DEL PAIS EN 2020";
     gotoxy(5,4); cout<< "| " << setw(45) << left << "TERRITORIO" << "| " << setw(12) << "REFUGIADOS" << "| " << setw(12) << "MIGRANTES" << "| " << setw(7) << "%" << "| ";
     gotoxy(5,5); cout << "|";
     for(int k = 0; k < 83; k++)
@@ -1212,7 +1212,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
 void menu3(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefugiados, mISO tabISO, vector<tListador>& vLista, vector<string> vDemandado){
     saltom3:
     char opcion; system("cls");
-    gotoxy(5, 2); cout << "RANKING DE PAISES CON MAS DESPLAZADOS INTERNOS (IDPs)";
+    gotoxy(5, 2); cout << "RANKINGS DE REFUGIADOS INTERNOS, POBLACION Y MIGRACION";
     gotoxy(5, 5); cout << "|1| - Ranking de paises con mas refugiados internos (IDP's)";
     gotoxy(5, 6); cout << "|2| - Ranking de paises con mas poblacion";
     gotoxy(5, 7); cout << "|3| - Ranking de paises con mas migracion";
