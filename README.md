@@ -10,6 +10,8 @@ Andreu:
 
 ### COSES A FER
 
-- Quitar tabISO de llerDatosPobl.
+- Menu 3 añadir funcion
+- Menu 2, que la r i R vagin cap endarrere
+- Afegir credits i acomiadament
 
 ### COSES QUE FALLEN
