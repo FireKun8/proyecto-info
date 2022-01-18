@@ -94,9 +94,8 @@ int main()
     mISO tabISO;
     vector<tListador> vLista;
     vector<string> vDemandado;
-    vector<int> vDemandado1 = {1, 7, 9, 10, 14};
-    leerDatosISO(tabISO);
 
+    leerDatosISO(tabISO);
     leerDatosPobl(mDatosMigr, tabISO, "migraciones.csv");
     leerDatosPobl(mDatosPobl, tabISO, "poblacion.csv");
     leerDatosRefug(mDatosRefug20XX, tabISO);
@@ -112,12 +111,6 @@ int main()
     system("cls");
     menu_principal(mDatosPobl, mDatosMigr, mDatosRefug20XX, tabISO, vLista, vDemandado);
 
-    
-    //imprimirRefug(mDatosRefug20XX, tabISO);
-    
-
-    //listadorDatos(mDatosPobl, tabISO, vLista, vDemandado);
-    //imprimirDatosPobl(vLista, 1);
 }
 
 //SUBPROGRAMAS GLOBALES------------------------------------------------------------------------------------------------
@@ -829,8 +822,8 @@ void rankingPobl(mDatosPobl mDatosDemo, mISO tabISO, vector<string> vDemandado, 
     for(int k = 0; k < 80; k++){
         cout<<"-";
     }
-    for (int k = 0; k < 30; k++){
-        gotoxy(5, 6 + k); cout<<"| "<<setw(5)<<left<<k+1<<"| "<<setw(59)<<left<<vLista[k+1].pais<<"| "<<setw(9)<<left<<vLista[k+1].poblTotal[ano][cat]<<"|"<<endl;
+    for (int k = 1; k < 31; k++){
+        gotoxy(5, 5 + k); cout<<"| "<<setw(5)<<left<<k<<"| "<<setw(59)<<left<<vLista[k].pais<<"| "<<setw(9)<<left<<vLista[k].poblTotal[ano][cat]<<"|"<<endl;
     }
 }
 
@@ -1005,7 +998,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1057,7 +1050,7 @@ void menu1(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr,mDatosRefug mDatosRefugi
                 gotoxy(5, 5); cout << "(Pulse r para retroceder)";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom1;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1118,7 +1111,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
@@ -1171,7 +1164,7 @@ void menu2(mDatosPobl mDatosDemo, mDatosPobl mDatosMigr, mDatosRefug mDatosRefug
                 gotoxy(5, 7); cout << "Escoja una opcion:";
                 aux = getche();
                 if (aux == 'r' || aux == 'R') goto saltom2;
-                valor = aux - 49;
+                valor = aux - 48;
                 system("cls");
                 if (aux != '1' && aux != '2' && aux != '3'){
                     gotoxy(5, 2); cout << "Introduzca una opcion valida";
